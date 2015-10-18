@@ -19,5 +19,6 @@
     <string name="prompt_nombre_contacto">Nombre del contacto</string>
     <string name="prompt_apellido_contacto">Apellido del contacto</string>
     <string name="prompt_telefono_contacto">Teléfono del contacto</string>
-    <string name="seguir">Seguir</string>
+
+    <string name="seguir">SEGUIR</string>
 </resources>
