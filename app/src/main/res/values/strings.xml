@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">raven</string>
+
+    <string name="registrarse">Registrarse</string>
+
+    <string name="prompt_nombre">Nombre</string>
+    <string name="prompt_apellido">Apellido</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_anyo_nacimiento">Año de nacimiento</string>
+    <string name="prompt_telefono">Teléfono</string>
+    <string name="prompt_info_medica">Información médica</string>
+    <string name="prompt_nombre_familiar">Nombre de contacto</string>
+    <string name="prompt_apellido_familiar">Apellido de contacto</string>
+    <string name="prompt_telefono_familiar">Teléfono de contacto</string>
+    <string name="prompt_residencia">Lugar de residencia</string>
+    <string name="prompt_contrasenya">Contraseña</string>
+    <string name="seguir">Seguir</string>
+</resources>
