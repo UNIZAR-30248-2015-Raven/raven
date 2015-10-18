@@ -24,6 +24,9 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText mInfoMedicaText;       // Información médica del usuario
     private EditText mResidenciaText;       // Lugar de residencia del usuario
     private EditText mContrasenyaText;      // Contraseña médica del usuario
+    private EditText mNombreContactoText;   // Nombre del contancto auxiliar
+    private EditText mApellidoContactoText; // Apellido del contacto auxiliar
+    private EditText mTelefonoContactoText; // Teléfono del contacto auxiliar
 
     private String email;
 
@@ -42,6 +45,9 @@ public class CreateAccountActivity extends AppCompatActivity {
         mInfoMedicaText = (EditText) findViewById(R.id.info_medica);
         mResidenciaText = (EditText) findViewById(R.id.residencia);
         mContrasenyaText = (EditText) findViewById(R.id.contrasenya);
+        mNombreContactoText = (EditText) findViewById(R.id.nombreContacto);
+        mApellidoContactoText = (EditText) findViewById(R.id.apellidoContacto);
+        mTelefonoContactoText = (EditText) findViewById(R.id.telefonoContacto);
 
         Button botonSeguir = (Button) findViewById(R.id.seguir);
 
@@ -78,10 +84,14 @@ public class CreateAccountActivity extends AppCompatActivity {
         String infoMedica = mInfoMedicaText.getText().toString();
         String residencia = mResidenciaText.getText().toString();
         String contrasenya = mContrasenyaText.getText().toString();
+        String nombreContacto = mNombreContactoText.getText().toString();
+        String apellidoContacto = mApellidoContactoText.getText().toString();
+        String telefonoContacto = mTelefonoContactoText.getText().toString();
 
         UserAdapter adaptadorUsuarios = new UserAdapter();
         boolean peticionAceptada = adaptadorUsuarios.enviarPeticion(nombre, apellido, email,
-                anyoNacimiento, telefono, infoMedica, residencia, contrasenya);
+                anyoNacimiento, telefono, infoMedica, residencia, contrasenya, nombreContacto,
+                apellidoContacto, telefonoContacto);
         return peticionAceptada;
     }
 

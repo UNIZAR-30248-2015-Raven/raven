@@ -2,6 +2,8 @@
     <string name="app_name">raven</string>
 
     <string name="registrarse">Registrarse</string>
+    <string name="info">TU INFORMACIÓN</string>
+    <string name="infoContacto">INFORMACIÓN DE CONTACTO AUXILIAR</string>
 
     <string name="prompt_nombre">Nombre</string>
     <string name="prompt_apellido">Apellido</string>
@@ -14,5 +16,8 @@
     <string name="prompt_telefono_familiar">Teléfono de contacto</string>
     <string name="prompt_residencia">Lugar de residencia</string>
     <string name="prompt_contrasenya">Contraseña</string>
+    <string name="prompt_nombre_contacto">Nombre del contacto</string>
+    <string name="prompt_apellido_contacto">Apellido del contacto</string>
+    <string name="prompt_telefono_contacto">Teléfono del contacto</string>
     <string name="seguir">Seguir</string>
 </resources>

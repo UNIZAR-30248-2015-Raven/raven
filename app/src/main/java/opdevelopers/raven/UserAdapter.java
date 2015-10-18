@@ -21,13 +21,15 @@ public class UserAdapter {
     }
 
     public boolean enviarPeticion(String nombre, String apellido, String email, String anyoNacimiento,
-                                  String telefono, String infoMedica, String residencia, String contrasenya) {
+                                  String telefono, String infoMedica, String residencia, String contrasenya,
+                                  String nombreContacto, String apellidoContacto, String telefonoContacto) {
         try {
             String details = "details={\"tlf\":\"" + telefono + "\",\"email\":\"" + email + "\","
-                    + "\"email\":\"" + email + "\",\"pass\":\"" + contrasenya + "\","
                     + "\"nombre\":\"" + nombre + "\",\"apellido\":\"" + apellido + "\","
-                    + "\"info\":\"" + infoMedica + "\",\"nacimiento\":\"" + anyoNacimiento + "\","
-                    + "\"residencia\":\"" + residencia + "}";
+                    + "\"pass\":\"" + contrasenya + "\",\"nacimiento\":\"" + anyoNacimiento + "\","
+                    + "\"info\":\"" + infoMedica + "\",\"residencia\":\"" + residencia + "\","
+                    + "\"contacto\": { \"nombre\":\"" + nombreContacto + "\",\"apellido\":\"" + apellidoContacto + "\","
+                    + "\"tlf\":\"" + telefonoContacto + "\" } }";
             StringEntity params = new StringEntity(details);
             request.addHeader("Content-Type", "application/x-www-form-urlencoded");
             request.setEntity(params);
