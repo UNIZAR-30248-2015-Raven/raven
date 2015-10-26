@@ -4,17 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.URL;
-import java.net.UnknownHostException;
+import android.widget.Toast;
 
 /**
  * Created by Eduardo on 14/10/2015.
@@ -64,8 +57,14 @@ public class CreateAccountActivity extends AppCompatActivity {
                 boolean registrado = registrarUsuario();
                 if (registrado) {
                     actualizarPrefsUsuario();
+                    Toast.makeText(getApplicationContext(), R.string.exito_datos,
+                            Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(CreateAccountActivity.this, MainActivity.class);
                     CreateAccountActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), R.string.error_datos,
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 
