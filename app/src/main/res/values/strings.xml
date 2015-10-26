@@ -2,6 +2,8 @@
     <string name="app_name">raven</string>
 
     <string name="registrarse">Registrarse</string>
+    <string name="menu">Menú</string>
+
     <string name="info">TU INFORMACIÓN</string>
     <string name="infoContacto">INFORMACIÓN DE CONTACTO AUXILIAR</string>
 

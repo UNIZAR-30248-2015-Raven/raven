@@ -27,7 +27,6 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
     HttpURLConnection conn = null;
     HashMap<String, String> postDataParams = null;
     String responseBody = "";
-    String statusCode = "";
 
     public UserAdapter() {
         try {
@@ -40,7 +39,6 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
             conn.setRequestMethod("POST");
             //conn.setDoInput(true);
             conn.setDoOutput(true);
-
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -65,11 +63,11 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
 
         doInBackground();
 
-        if (statusCode.contains("200")) {
+        if (responseBody.contains("200")) {
             Log.d("Conex", "200");
             return true;
         }
-        else if (statusCode.contains("400")) {
+        else if (responseBody.contains("400")) {
             Log.d("Conex", "400");
             return false;
         }
@@ -85,11 +83,8 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            //Conexión con la BBDD
+            // Conexión con la BBDD
             conn.connect();
-            //El servidor solamente devuelve un código
-            Integer response = conn.getResponseCode();
-            statusCode = response.toString();
 
             OutputStream os = conn.getOutputStream();
 
@@ -108,6 +103,9 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
                 while ((line = br.readLine()) != null) {
                     responseBody += line;
                 }
+            }
+            else if (responseCode == HttpsURLConnection.HTTP_BAD_REQUEST) {
+                Log.d("BadRequest", String.valueOf(responseCode));
             }
         }
         catch (IOException e) {
