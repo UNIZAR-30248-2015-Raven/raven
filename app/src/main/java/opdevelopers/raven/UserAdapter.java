@@ -2,6 +2,7 @@ package opdevelopers.raven;
 
 import android.os.AsyncTask;
 import android.os.StrictMode;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -26,16 +27,20 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
     HttpURLConnection conn = null;
     HashMap<String, String> postDataParams = null;
     String responseBody = "";
+    String statusCode = "";
 
     public UserAdapter() {
         try {
-            URL url = new URL("http://raven-sirbagus.rhcloud.com/createUser");
+            URL url = new URL("http://raven-sirbargus.rhcloud.com/createUser");
+            Log.d("URL", url.toString());
             conn = (HttpURLConnection) url.openConnection();
+            Log.d("URL2", conn.toString());
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
             conn.setRequestMethod("POST");
-            conn.setDoInput(true);
+            //conn.setDoInput(true);
             conn.setDoOutput(true);
+
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -60,13 +65,16 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
 
         doInBackground();
 
-        if (responseBody.contains("200")) {
+        if (statusCode.contains("200")) {
+            Log.d("Conex", "200");
             return true;
         }
-        else if (responseBody.contains("400")) {
+        else if (statusCode.contains("400")) {
+            Log.d("Conex", "400");
             return false;
         }
         else {
+            Log.d("Conex", "Other");
             return false;
         }
     }
@@ -77,7 +85,14 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
+            //Conexión con la BBDD
+            conn.connect();
+            //El servidor solamente devuelve un código
+            Integer response = conn.getResponseCode();
+            statusCode = response.toString();
+
             OutputStream os = conn.getOutputStream();
+
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
             writer.write(getPostDataString(postDataParams));
 
