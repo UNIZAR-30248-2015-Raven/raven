@@ -32,7 +32,7 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
                 url = new URL("http://raven-sirbargus.rhcloud.com/createUser");
             }
             else {
-                url = new URL("http://raven-sirbargus.rhcloud.com/login");
+                url = new URL("http://raven-sirbargus.rhcloud.com/loginUser");
             }
             conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000);
