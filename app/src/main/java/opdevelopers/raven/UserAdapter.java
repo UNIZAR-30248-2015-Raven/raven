@@ -25,9 +25,15 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
     HashMap<String, String> postDataParams = null;
     int responseCode = -1;
 
-    public UserAdapter() {
+    public UserAdapter (boolean nuevoUsuario) {
         try {
-            URL url = new URL("http://raven-sirbargus.rhcloud.com/createUser");
+            URL url = null;
+            if (nuevoUsuario) {
+                url = new URL("http://raven-sirbargus.rhcloud.com/createUser");
+            }
+            else {
+                url = new URL("http://raven-sirbargus.rhcloud.com/login");
+            }
             conn = (HttpURLConnection) url.openConnection();
             conn.setReadTimeout(15000);
             conn.setConnectTimeout(15000);
@@ -39,7 +45,7 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    public boolean enviarPeticion(String nombre, String apellido, String email, String anyoNacimiento,
+    public boolean enviarPeticionRegistrar(String nombre, String apellido, String email, String anyoNacimiento,
                                   String telefono, String infoMedica, String residencia, String contrasenya,
                                   String nombreContacto, String apellidoContacto, String telefonoContacto) {
         postDataParams = new HashMap<>();
@@ -54,6 +60,21 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
         postDataParams.put("contactoNombre", nombreContacto);
         postDataParams.put("contactoApellido", apellidoContacto);
         postDataParams.put("contactoTelefono", telefonoContacto);
+
+        doInBackground();
+
+        if (responseCode == HttpsURLConnection.HTTP_OK) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean enviarPeticionSesion(String email, String contrasenya) {
+        postDataParams = new HashMap<>();
+        postDataParams.put("email", email);
+        postDataParams.put("pass", contrasenya);
 
         doInBackground();
 

@@ -24,7 +24,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText mTelefonoText;         // Teléfono del usuario
     private EditText mInfoMedicaText;       // Información médica del usuario
     private EditText mResidenciaText;       // Lugar de residencia del usuario
-    private EditText mContrasenyaText;      // Contraseña médica del usuario
+    private EditText mContrasenyaText;      // Contraseña del usuario
     private EditText mNombreContactoText;   // Nombre del contancto auxiliar
     private EditText mApellidoContactoText; // Apellido del contacto auxiliar
     private EditText mTelefonoContactoText; // Teléfono del contacto auxiliar
@@ -95,8 +95,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         String apellidoContacto = mApellidoContactoText.getText().toString();
         String telefonoContacto = mTelefonoContactoText.getText().toString();
 
-        UserAdapter adaptadorUsuarios = new UserAdapter();
-        boolean peticionAceptada = adaptadorUsuarios.enviarPeticion(nombre, apellido, email,
+        UserAdapter adaptadorUsuarios = new UserAdapter(true);
+        boolean peticionAceptada = adaptadorUsuarios.enviarPeticionRegistrar(nombre, apellido, email,
                 anyoNacimiento, telefono, infoMedica, residencia, contrasenya, nombreContacto,
                 apellidoContacto, telefonoContacto);
         return peticionAceptada;
