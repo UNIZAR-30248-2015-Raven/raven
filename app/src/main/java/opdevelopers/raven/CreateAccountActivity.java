@@ -83,22 +83,28 @@ public class CreateAccountActivity extends AppCompatActivity {
      * base de datos del servidor.
      */
     public boolean registrarUsuario() {
-        String nombre = mNombreText.getText().toString();
-        String apellido = mApellidoText.getText().toString();
-        email = mEmailText.getText().toString();
-        String anyoNacimiento = mAnyoNacimientoText.getText().toString();
-        String telefono = mTelefonoText.getText().toString();
-        String infoMedica = mInfoMedicaText.getText().toString();
-        String residencia = mResidenciaText.getText().toString();
-        String contrasenya = mContrasenyaText.getText().toString();
-        String nombreContacto = mNombreContactoText.getText().toString();
-        String apellidoContacto = mApellidoContactoText.getText().toString();
-        String telefonoContacto = mTelefonoContactoText.getText().toString();
+        boolean peticionAceptada = false;
+        try {
+            String nombre = mNombreText.getText().toString();
+            String apellido = mApellidoText.getText().toString();
+            email = mEmailText.getText().toString();
+            String anyoNacimiento = mAnyoNacimientoText.getText().toString();
+            String telefono = mTelefonoText.getText().toString();
+            String infoMedica = mInfoMedicaText.getText().toString();
+            String residencia = mResidenciaText.getText().toString();
+            String contrasenya = mContrasenyaText.getText().toString();
+            String nombreContacto = mNombreContactoText.getText().toString();
+            String apellidoContacto = mApellidoContactoText.getText().toString();
+            String telefonoContacto = mTelefonoContactoText.getText().toString();
 
-        UserAdapter adaptadorUsuarios = new UserAdapter(true);
-        boolean peticionAceptada = adaptadorUsuarios.enviarPeticionRegistrar(nombre, apellido, email,
-                anyoNacimiento, telefono, infoMedica, residencia, contrasenya, nombreContacto,
-                apellidoContacto, telefonoContacto);
+            UserAdapter adaptadorUsuarios = new UserAdapter(true);
+            User usuario = new User(nombre, apellido, email, anyoNacimiento, telefono, infoMedica,
+                    residencia, contrasenya, nombreContacto, apellidoContacto, telefonoContacto);
+            peticionAceptada = adaptadorUsuarios.enviarPeticionRegistrar(usuario);
+        }
+        catch (ErrorException e) {
+            e.printStackTrace();
+        }
         return peticionAceptada;
     }
 

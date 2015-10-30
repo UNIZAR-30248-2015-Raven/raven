@@ -45,21 +45,19 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    public boolean enviarPeticionRegistrar(String nombre, String apellido, String email, String anyoNacimiento,
-                                  String telefono, String infoMedica, String residencia, String contrasenya,
-                                  String nombreContacto, String apellidoContacto, String telefonoContacto) {
+    public boolean enviarPeticionRegistrar(User usuario) {
         postDataParams = new HashMap<>();
-        postDataParams.put("tlf", telefono);
-        postDataParams.put("email", email);
-        postDataParams.put("pass", contrasenya);
-        postDataParams.put("nombre", nombre);
-        postDataParams.put("apellido", apellido);
-        postDataParams.put("info", infoMedica);
-        postDataParams.put("residencia", residencia);
-        postDataParams.put("nacimiento", anyoNacimiento);
-        postDataParams.put("contactoNombre", nombreContacto);
-        postDataParams.put("contactoApellido", apellidoContacto);
-        postDataParams.put("contactoTelefono", telefonoContacto);
+        postDataParams.put("tlf", usuario.getTelefono());
+        postDataParams.put("email", usuario.getEmail());
+        postDataParams.put("pass", usuario.getContrasenya());
+        postDataParams.put("nombre", usuario.getNombre());
+        postDataParams.put("apellido", usuario.getApellido());
+        postDataParams.put("info", usuario.getInfoMedica());
+        postDataParams.put("residencia", usuario.getResidencia());
+        postDataParams.put("nacimiento", usuario.getAnyoNacimiento());
+        postDataParams.put("contactoNombre", usuario.getNombre());
+        postDataParams.put("contactoApellido", usuario.getApellidoContacto());
+        postDataParams.put("contactoTelefono", usuario.getTelefonoContacto());
 
         doInBackground();
 
@@ -71,10 +69,10 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    public boolean enviarPeticionSesion(String email, String contrasenya) {
+    public boolean enviarPeticionSesion(User usuario) {
         postDataParams = new HashMap<>();
-        postDataParams.put("email", email);
-        postDataParams.put("pass", contrasenya);
+        postDataParams.put("email", usuario.getEmail());
+        postDataParams.put("pass", usuario.getContrasenya());
 
         doInBackground();
 

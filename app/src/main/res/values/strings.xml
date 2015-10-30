@@ -25,6 +25,7 @@
     <string name="error_datos">Datos introducidos erróneamente</string>
     <string name="exito_datos">Datos introducidos correctamente</string>
     <string name="exito_sesion">Bienvenido</string>
+
     <string name="seguir">SEGUIR</string>
     <string name="iniciar_sesion">INICIAR SESIÓN</string>
     <string name="registrar">REGISTRARSE</string>

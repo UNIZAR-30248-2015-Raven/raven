@@ -73,11 +73,19 @@ public class LoginActivity extends AppCompatActivity {
      * que el email y la contraseña son correctos.
      */
     public boolean comprobarUsuario() {
-        email = mEmailText.getText().toString();
-        String contrasenya = mContrasenyaText.getText().toString();
+        boolean sesionAceptada = false;
+        try {
+            email = mEmailText.getText().toString();
+            String contrasenya = mContrasenyaText.getText().toString();
 
-        UserAdapter adaptadorUsuarios = new UserAdapter(false);
-        boolean sesionAceptada = adaptadorUsuarios.enviarPeticionSesion(email, contrasenya);
+            UserAdapter adaptadorUsuarios = new UserAdapter(false);
+            User usuario = new User(email, contrasenya);
+
+            sesionAceptada = adaptadorUsuarios.enviarPeticionSesion(usuario);
+        }
+        catch (ErrorException e) {
+            e.printStackTrace();
+        }
         return sesionAceptada;
     }
 
