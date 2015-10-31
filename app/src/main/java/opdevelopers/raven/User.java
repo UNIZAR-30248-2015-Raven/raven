@@ -35,17 +35,72 @@ public class User {
     public User(String nombre, String apellido, String email, String anyoNacimiento, String telefono,
                 String infoMedica, String residencia, String contrasenya, String nombreContacto,
                 String apellidoContacto, String telefonoContacto) throws ErrorException {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.anyoNacimiento = anyoNacimiento;
-        this.telefono = telefono;
-        this.infoMedica = infoMedica;
-        this.residencia = residencia;
-        this.contrasenya = contrasenya;
-        this.nombreContacto = nombreContacto;
-        this.apellidoContacto = apellidoContacto;
-        this.telefonoContacto = telefonoContacto;
+        if (nombre == null || nombre.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.nombre = nombre;
+        }
+        if (apellido == null || apellido.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.apellido = apellido;
+        }
+        if (email == null || email.equals("") || !email.contains("@") || !email.contains(".")) {
+            throw new ErrorException();
+        }
+        else {
+            this.email = email;
+        }
+        if (anyoNacimiento == null || anyoNacimiento.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.anyoNacimiento = anyoNacimiento;
+        }
+        if (telefono == null || telefono.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.telefono = telefono;
+        }
+        if (infoMedica == null || infoMedica.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.infoMedica = infoMedica;
+        }
+        if (residencia == null || residencia.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.residencia = residencia;
+        }
+        if (contrasenya == null || contrasenya.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.contrasenya = contrasenya;
+        }
+        if (nombreContacto == null || nombreContacto.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.nombreContacto = nombreContacto;
+        }
+        if (apellidoContacto == null || apellidoContacto.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.apellidoContacto = apellidoContacto;
+        }
+        if (telefonoContacto == null || telefonoContacto.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.telefonoContacto = telefonoContacto;
+        }
     }
 
     public String getNombre() {
