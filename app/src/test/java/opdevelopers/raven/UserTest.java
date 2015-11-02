@@ -100,6 +100,24 @@ public class UserTest {
     }
 
     @Test(expected=ErrorException.class)
+    public void testAnyoCuatroCifras() throws ErrorException {
+        User usuario = new User("Nombre", "Apellido", "correo@example.com", "20015", "976543210",
+                "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
+    }
+
+    @Test(expected=ErrorException.class)
+    public void testAnyoPositivo() throws ErrorException {
+        User usuario = new User("Nombre", "Apellido", "correo@example.com", "-168", "976543210",
+                "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
+    }
+
+    @Test(expected=ErrorException.class)
+    public void testAnyoEntero() throws ErrorException {
+        User usuario = new User("Nombre", "Apellido", "correo@example.com", "Doce", "976543210",
+                "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
+    }
+
+    @Test(expected=ErrorException.class)
     public void testTelefonoNull() throws ErrorException {
         User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", null,
                 "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
@@ -108,6 +126,18 @@ public class UserTest {
     @Test(expected=ErrorException.class)
     public void testTelefonoVacio() throws ErrorException {
         User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", "",
+                "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
+    }
+
+    @Test(expected=ErrorException.class)
+    public void testTelefonoPositivo() throws ErrorException {
+        User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", "-976543210",
+                "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
+    }
+
+    @Test(expected=ErrorException.class)
+    public void testTelefonoEntero() throws ErrorException {
+        User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", "Nueve siete seis",
                 "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
     }
 
@@ -181,5 +211,17 @@ public class UserTest {
     public void testTelefonoContactoVacio() throws ErrorException {
         User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", "976543210",
                 "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "");
+    }
+
+    @Test(expected=ErrorException.class)
+    public void testTelefonoContactoPositivo() throws ErrorException {
+        User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", "976543210",
+                "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "-678654321");
+    }
+
+    @Test(expected=ErrorException.class)
+    public void testTelefonoContactoEntero() throws ErrorException {
+        User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", "976543210",
+                "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "Seis siete ocho");
     }
 }

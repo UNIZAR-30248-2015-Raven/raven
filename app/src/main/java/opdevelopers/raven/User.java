@@ -53,16 +53,34 @@ public class User {
         else {
             this.email = email;
         }
-        if (anyoNacimiento == null || anyoNacimiento.equals("")) {
+        if (anyoNacimiento == null || anyoNacimiento.equals("") || anyoNacimiento.length() != 4) {
             throw new ErrorException();
         }
         else {
+            try {
+                int anyo = Integer.parseInt(anyoNacimiento);
+                if (anyo < 0) {
+                    throw new ErrorException();
+                }
+            }
+            catch (NumberFormatException e) {
+                throw new ErrorException();
+            }
             this.anyoNacimiento = anyoNacimiento;
         }
         if (telefono == null || telefono.equals("")) {
             throw new ErrorException();
         }
         else {
+            try {
+                int tlf = Integer.parseInt(telefono);
+                if (tlf < 0) {
+                    throw new ErrorException();
+                }
+            }
+            catch (NumberFormatException e) {
+                throw new ErrorException();
+            }
             this.telefono = telefono;
         }
         if (infoMedica == null || infoMedica.equals("")) {
@@ -99,6 +117,15 @@ public class User {
             throw new ErrorException();
         }
         else {
+            try {
+                int tlfContacto = Integer.parseInt(telefonoContacto);
+                if (tlfContacto < 0) {
+                    throw new ErrorException();
+                }
+            }
+            catch (NumberFormatException e) {
+                throw new ErrorException();
+            }
             this.telefonoContacto = telefonoContacto;
         }
     }
