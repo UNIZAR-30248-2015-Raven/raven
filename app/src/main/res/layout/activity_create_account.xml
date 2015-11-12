@@ -33,79 +33,80 @@
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/nombre" android:layout_width="match_parent"
+                <EditText android:id="@+id/nombre" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_nombre"
                     android:inputType="text" android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/apellido" android:layout_width="match_parent"
+                <EditText android:id="@+id/apellido" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_apellido"
                     android:inputType="text" android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/email" android:layout_width="match_parent"
+                <EditText android:id="@+id/email" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress" android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/anyo_nacimiento" android:layout_width="match_parent"
+                <EditText android:id="@+id/anyo_nacimiento" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_anyo_nacimiento"
                     android:inputType="number" android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/telefono" android:layout_width="match_parent"
+                <EditText android:id="@+id/telefono" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_telefono"
                     android:inputType="phone" android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/info_medica" android:layout_width="match_parent"
+                <EditText android:id="@+id/info_medica" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_info_medica"
-                    android:inputType="textMultiLine" android:maxLines="3" android:isScrollContainer="true" />
+                    android:inputType="textMultiLine" android:maxLines="3"
+                    android:isScrollContainer="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/residencia" android:layout_width="match_parent"
+                <EditText android:id="@+id/residencia" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_residencia"
                     android:inputType="text" android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/contrasenya" android:layout_width="match_parent"
+                <EditText android:id="@+id/contrasenya" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_contrasenya"
                     android:inputType="textPassword" android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -126,30 +127,30 @@
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/nombreContacto" android:layout_width="match_parent"
+                <EditText android:id="@+id/nombreContacto" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_nombre_contacto"
                     android:inputType="text" android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/apellidoContacto" android:layout_width="match_parent"
+                <EditText android:id="@+id/apellidoContacto" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_apellido_contacto"
                     android:inputType="text" android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <EditText android:id="@+id/telefonoContacto" android:layout_width="match_parent"
+                <EditText android:id="@+id/telefonoContacto" android:layout_width="350dp"
                     android:layout_height="wrap_content" android:hint="@string/prompt_telefono_contacto"
                     android:inputType="phone" android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" android:layout_gravity="center" />
 
             </android.support.design.widget.TextInputLayout>
 
