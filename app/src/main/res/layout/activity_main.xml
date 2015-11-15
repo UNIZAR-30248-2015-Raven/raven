@@ -16,6 +16,13 @@
         <LinearLayout android:id="@+id/principal_form" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical">
 
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/BotonCalendario"
+                android:src="@drawable/calendario_icono"
+                android:background="@null" />
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>
