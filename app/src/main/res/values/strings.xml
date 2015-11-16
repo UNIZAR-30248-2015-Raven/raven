@@ -23,6 +23,8 @@
     <string name="prompt_apellido_contacto">Apellido del contacto</string>
     <string name="prompt_telefono_contacto">Teléfono del contacto</string>
 
+    <string name="log_out">Cerrar sesión</string>
+
     <string name="error_datos">Datos introducidos erróneamente</string>
     <string name="exito_datos">Datos introducidos correctamente</string>
     <string name="exito_sesion">Bienvenido</string>

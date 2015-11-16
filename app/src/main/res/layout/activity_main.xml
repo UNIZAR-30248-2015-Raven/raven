@@ -25,12 +25,4 @@
                 android:background="@null" />
         </LinearLayout>
     </ScrollView>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log out"
-        android:id="@+id/logout"
-        android:layout_gravity="right" />
-
 </LinearLayout>
