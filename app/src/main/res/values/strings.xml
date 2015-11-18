@@ -4,9 +4,11 @@
     <string name="registrarse">Registrarse</string>
     <string name="menu">Menú</string>
     <string name="calendario">Calendario</string>
+    <string name="crear_evento">Crear evento</string>
 
     <string name="info">TU INFORMACIÓN</string>
     <string name="infoContacto">INFORMACIÓN DE CONTACTO AUXILIAR</string>
+    <string name="infoEvento">INFORMACIÓN DE EVENTO</string>
 
     <string name="prompt_nombre">Nombre</string>
     <string name="prompt_apellido">Apellido</string>
@@ -22,6 +24,10 @@
     <string name="prompt_nombre_contacto">Nombre del contacto</string>
     <string name="prompt_apellido_contacto">Apellido del contacto</string>
     <string name="prompt_telefono_contacto">Teléfono del contacto</string>
+
+    <string name="prompt_mensaje">Mensaje</string>
+    <string name="prompt_date">Fecha</string>
+    <string name="prompt_time">Hora</string>
 
     <string name="log_out">Cerrar sesión</string>
 
