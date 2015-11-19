@@ -52,7 +52,7 @@ public class CalendarioActivity extends AppCompatActivity {
                 Intent i = new Intent(CalendarioActivity.this, CreateEventActivity.class);
 
                 i.putExtra("dia", dia);
-                i.putExtra("mes", mes);
+                i.putExtra("mes", mes + 1);
                 i.putExtra("anno", anno);
 
                 CalendarioActivity.this.startActivityForResult(i, ACTIVITY_CREAR_EVENTO);

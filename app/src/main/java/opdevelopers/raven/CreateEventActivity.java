@@ -2,7 +2,6 @@ package opdevelopers.raven;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,9 +14,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.sql.Time;
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Created by Eduardo on 18/11/2015.
@@ -44,8 +42,18 @@ public class CreateEventActivity extends AppCompatActivity {
         setTitle(R.string.crear_evento);
 
         mMensajeText = (EditText) findViewById(R.id.mensaje);
-        mMensajeText.setText(dia + "/" + (mes + 1) + "/" + anno);
         mFechaText = (EditText) findViewById(R.id.date);
+
+        String ceroMes = "";
+        String ceroDia = "";
+        if (mes < 10) {
+            ceroMes = "0";
+        }
+        if (dia < 10) {
+            ceroDia = "0";
+        }
+        mFechaText.setText(anno + "-" + ceroMes + mes + "-" + ceroDia + dia);
+
         mHoraText = (EditText) findViewById(R.id.time);
 
         mFechaText.setOnClickListener(new View.OnClickListener() {
@@ -53,20 +61,27 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
-                if (!mFechaText.getText().toString().equals("")) {
-                    calendar.setTime(Date.valueOf(mFechaText.getText().toString()));
-                }
+                calendar.setTime(Date.valueOf(mFechaText.getText().toString()));
                 DatePickerDialog mDatePicker = new DatePickerDialog(CreateEventActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int selectedYear, int selectedMonth,
                                                   int selectedDay) {
                                 selectedMonth = selectedMonth + 1;
-                                mFechaText.setText(selectedYear + "-" + selectedMonth + "-" + selectedDay);
+                                String zeroMonth = "";
+                                String zeroDay = "";
+                                if (selectedMonth < 10) {
+                                    zeroMonth = "0";
+                                }
+                                if (selectedDay < 10) {
+                                    zeroDay = "0";
+                                }
+                                mFechaText.setText(selectedYear + "-" + zeroMonth + selectedMonth + "-" + zeroDay + selectedDay);
                             }
                         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 mDatePicker.setTitle("Seleccionar fecha");
                 mDatePicker.setButton(DatePickerDialog.BUTTON_POSITIVE, "Aceptar", mDatePicker);
+                mDatePicker.setButton(DatePickerDialog.BUTTON_NEGATIVE, "Cancelar", mDatePicker);
                 mDatePicker.show();
             }
         });
@@ -79,17 +94,27 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
                 if (!mHoraText.getText().toString().equals("")) {
-                    calendar.setTime(Date.valueOf(mHoraText.getText().toString()));
+                    Time time = Time.valueOf(mHoraText.getText().toString() + ":00");
+                    calendar.setTime(time);
                 }
                 TimePickerDialog mTimePicker = new TimePickerDialog(CreateEventActivity.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                                mHoraText.setText(selectedHour + ":" + selectedMinute);
+                                String zeroHour = "";
+                                String zeroMinute = "";
+                                if (selectedHour < 10) {
+                                    zeroHour = "0";
+                                }
+                                if (selectedMinute < 10) {
+                                    zeroMinute = "0";
+                                }
+                                mHoraText.setText(zeroHour + selectedHour + ":" + zeroMinute + selectedMinute);
                             }
                         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
                 mTimePicker.setTitle("Seleccionar hora");
                 mTimePicker.setButton(DatePickerDialog.BUTTON_POSITIVE, "Aceptar", mTimePicker);
+                mTimePicker.setButton(DatePickerDialog.BUTTON_NEGATIVE, "Cancelar", mTimePicker);
                 mTimePicker.show();
             }
         });

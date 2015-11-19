@@ -41,9 +41,11 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
 
     public boolean enviarPeticionCrearEvento(Event evento) {
         postDataParams = new HashMap<>();
+        postDataParams.put("email", evento.getEmail());
         postDataParams.put("texto", evento.getMensaje());
-        postDataParams.put("date", evento.getDate());
-        postDataParams.put("time", evento.getTime());
+        postDataParams.put("day", evento.getDate());
+        postDataParams.put("hour", evento.getTime());
+        postDataParams.put("periodicidad", evento.getPeriodicidad());
 
         doInBackground();
 
