@@ -35,10 +35,16 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = getIntent();
+        int dia = intent.getIntExtra("dia", 0);
+        int mes = intent.getIntExtra("mes", 0);
+        int anno = intent.getIntExtra("anno", 0);
+
         setContentView(R.layout.activity_create_event);
         setTitle(R.string.crear_evento);
 
         mMensajeText = (EditText) findViewById(R.id.mensaje);
+        mMensajeText.setText(dia + "/" + (mes + 1) + "/" + anno);
         mFechaText = (EditText) findViewById(R.id.date);
         mHoraText = (EditText) findViewById(R.id.time);
 
