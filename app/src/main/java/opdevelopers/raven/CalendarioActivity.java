@@ -49,7 +49,7 @@ public class CalendarioActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(CalendarioActivity.this, CreateEventActivity.class);
-                
+
                 i.putExtra("dia", dia);
                 i.putExtra("mes", mes);
                 i.putExtra("anno", anno);
