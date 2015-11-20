@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -31,6 +35,17 @@ public class CalendarioActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_calendario);
         setTitle(R.string.calendario);
+        EventAdapter adaptadorEventos = new EventAdapter(Constants.FETCH_EVENTS, "rgcmb@hotmail.com");
+        try {
+            JSONArray jsonObject = new JSONArray(adaptadorEventos.peticionFetchEventos());
+            for (int i = 0; i < jsonObject.length(); i++) {
+                System.out.println(jsonObject.get(i));
+            }
+            System.out.println(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        System.out.println((String)adaptadorEventos.peticionFetchEventos());
 
         CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
         Button botonCrear = (Button) findViewById(R.id.botonCrearEvento);
@@ -50,7 +65,7 @@ public class CalendarioActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(CalendarioActivity.this, CreateEventActivity.class);
-
+                // nombre descriptivo premoh what is i, better intent
                 i.putExtra("dia", dia);
                 i.putExtra("mes", mes + 1);
                 i.putExtra("anno", anno);

@@ -68,4 +68,22 @@ public class Event {
     public void setPeriodicidad(String periodicidad) {
         this.periodicidad = periodicidad;
     }
+
+    @Override
+    public String toString() {
+        String cadena = "INFO EVENTO\n";
+        cadena += "===========\n";
+        cadena += "id_event -> " + this.id + "\n";
+        cadena += "email -> " + this.email + "\n";
+        cadena += "mensaje -> " + this.mensaje + "\n";
+        cadena += "dia -> " + this.date + "\n";
+        cadena += "hora -> " + this.time + "\n";
+        cadena += "periodicidad -> " + this.periodicidad + "\n\n";
+        return cadena;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
 }

@@ -3,14 +3,21 @@ package opdevelopers.raven;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,19 +31,68 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
     HttpURLConnection conn = null;
     HashMap<String, String> postDataParams = null;
     int responseCode = -1;
-
-    public EventAdapter() {
+    StringBuilder result = new StringBuilder();
+    public EventAdapter(int typeRequest, String... getParams) {
         try {
-            URL url = url = new URL("http://raven-sirbargus.rhcloud.com/createEvent");
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(15000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-        }
-        catch (IOException e) {
+            switch (typeRequest) {
+                case Constants.CREATE_EVENT:
+                    URL url = url = new URL("http://raven-sirbargus.rhcloud.com/createEvent");
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setReadTimeout(15000);
+                    conn.setConnectTimeout(15000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    break;
+                case Constants.FETCH_EVENTS:
+
+                    URL url2 = url2 = new URL("http://raven-sirbargus.rhcloud.com/getEvents/" + getParams[0]);
+                    conn = (HttpURLConnection) url2.openConnection();
+                    conn.setReadTimeout(15000);
+                    conn.setConnectTimeout(15000);
+                    conn.setRequestMethod("GET");
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    String line;
+                    while ((line = rd.readLine()) != null) {
+                        result.append(line);
+                    }
+                    rd.close();
+                break;
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private ArrayList<Event> jsonFormatter(String json) {
+        ArrayList<Event> listaEventos = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(result.toString());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonOb = new JSONObject(jsonArray.get(i).toString());
+                //System.out.println("OPIDEVENTO¡¡¡¡¡  " + jsonOb.getString("id_event"));
+                listaEventos.add(new Event(jsonOb.getString("id_event"),
+                        jsonOb.getString("email"),
+                        jsonOb.getString("texto"),
+                        jsonOb.getString("day"),
+                        jsonOb.getString("hour"),
+                        jsonOb.getString("periodicidad")
+                ));
+                //System.out.println(jsonArray.get(i));
+            }
+            for (Event ev : listaEventos) {
+                System.out.println(ev.toString());
+            }
+            //System.out.println(jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return listaEventos;
+    }
+
+    public String peticionFetchEventos() {
+        this.jsonFormatter(result.toString());
+        return result.toString();
     }
 
     public boolean enviarPeticionCrearEvento(Event evento) {
