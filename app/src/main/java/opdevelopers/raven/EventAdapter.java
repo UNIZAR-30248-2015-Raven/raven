@@ -19,6 +19,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -64,8 +65,8 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    private ArrayList<Event> jsonFormatter(String json) {
-        ArrayList<Event> listaEventos = new ArrayList<>();
+    private List<Event> jsonFormatter(String json) {
+        List<Event> listaEventos = new ArrayList<>();
         try {
             JSONArray jsonArray = new JSONArray(result.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -80,9 +81,6 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
                 ));
                 //System.out.println(jsonArray.get(i));
             }
-            for (Event ev : listaEventos) {
-                System.out.println(ev.toString());
-            }
             //System.out.println(jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -90,9 +88,8 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
         return listaEventos;
     }
 
-    public String peticionFetchEventos() {
-        this.jsonFormatter(result.toString());
-        return result.toString();
+    public List<Event> peticionFetchEventos() {
+        return this.jsonFormatter(result.toString());
     }
 
     public boolean enviarPeticionCrearEvento(Event evento) {

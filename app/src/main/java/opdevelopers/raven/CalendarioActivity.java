@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -35,18 +36,12 @@ public class CalendarioActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_calendario);
         setTitle(R.string.calendario);
+        // Cambiar el correo hardcodeado por el que tenemos guardada en nuestra sesion
         EventAdapter adaptadorEventos = new EventAdapter(Constants.FETCH_EVENTS, "rgcmb@hotmail.com");
-        try {
-            JSONArray jsonObject = new JSONArray(adaptadorEventos.peticionFetchEventos());
-            for (int i = 0; i < jsonObject.length(); i++) {
-                System.out.println(jsonObject.get(i));
-            }
-            System.out.println(jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        ArrayList<Event> listEvents = (ArrayList) adaptadorEventos.peticionFetchEventos();
+        for(Event ev : listEvents) {
+            System.out.println(ev);
         }
-        System.out.println((String)adaptadorEventos.peticionFetchEventos());
-
         CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
         Button botonCrear = (Button) findViewById(R.id.botonCrearEvento);
         calendarView.setFirstDayOfWeek(Calendar.MONDAY);
@@ -64,13 +59,13 @@ public class CalendarioActivity extends AppCompatActivity {
         botonCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(CalendarioActivity.this, CreateEventActivity.class);
-                // nombre descriptivo premoh what is i, better intent
-                i.putExtra("dia", dia);
-                i.putExtra("mes", mes + 1);
-                i.putExtra("anno", anno);
+                Intent intent = new Intent(CalendarioActivity.this, CreateEventActivity.class);
 
-                CalendarioActivity.this.startActivityForResult(i, ACTIVITY_CREAR_EVENTO);
+                intent.putExtra("dia", dia);
+                intent.putExtra("mes", mes + 1);
+                intent.putExtra("anno", anno);
+
+                CalendarioActivity.this.startActivityForResult(intent, ACTIVITY_CREAR_EVENTO);
             }
         });
     }
