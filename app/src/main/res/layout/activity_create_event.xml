@@ -11,7 +11,8 @@
         android:layout_marginBottom="8dp" android:visibility="gone" />
 
     <ScrollView android:id="@+id/create_event_form" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="false">
 
         <LinearLayout android:id="@+id/event_form" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical">
@@ -65,6 +66,62 @@
                 android:layout_marginTop="16dp" android:text="@string/seguir"
                 android:textStyle="bold" android:textColor="@color/colorPrimaryDark"
                 android:layout_gravity="right" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lunes"
+                android:id="@+id/chLunes"
+                android:checked="false"
+                android:onClick="onCheckboxClicked" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Martes"
+                android:id="@+id/chMartes"
+                android:checked="false"
+                android:onClick="onCheckboxClicked" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Miercoles"
+                android:id="@+id/chMiercoles"
+                android:checked="false"
+                android:onClick="onCheckboxClicked" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jueves"
+                android:id="@+id/chJueves"
+                android:checked="false"
+                android:onClick="onCheckboxClicked" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Viernes"
+                android:id="@+id/chViernes"
+                android:checked="false"
+                android:onClick="onCheckboxClicked" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sabado"
+                android:id="@+id/chSabado"
+                android:checked="false"
+                android:onClick="onCheckboxClicked" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Domingo"
+                android:id="@+id/chDomingo"
+                android:checked="false"
+                android:onClick="onCheckboxClicked" />
 
         </LinearLayout>
     </ScrollView>

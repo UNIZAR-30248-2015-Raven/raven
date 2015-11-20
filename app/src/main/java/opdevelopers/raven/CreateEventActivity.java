@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Eduardo on 18/11/2015.
@@ -29,8 +32,18 @@ public class CreateEventActivity extends AppCompatActivity {
     private EditText mFechaText;             // Fecha del evento
     private EditText mHoraText;              // Hora del evento
 
+    private boolean lunes = false;
+    private boolean martes = false;
+    private boolean miercoles = false;
+    private boolean jueves = false;
+    private boolean viernes = false;
+    private boolean sabado = false;
+    private boolean domingo = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
@@ -147,6 +160,18 @@ public class CreateEventActivity extends AppCompatActivity {
         return email;
     }
 
+    private String getPeriodicidad() {
+        String periodicidad = "";
+
+        if (lunes) periodicidad += "L ";
+        if (martes) periodicidad += "M ";
+        if (miercoles) periodicidad += "X ";
+        if (jueves) periodicidad += "J ";
+        if (viernes) periodicidad += "V ";
+        if (sabado) periodicidad += "S ";
+        if (domingo) periodicidad += "D";
+        return periodicidad.trim(); // quita espacios al principio y al final de la cadena
+    }
     /*
      * Envía una petición http con los datos introducidos por el usuario para guardarlos en la
      * base de datos del servidor.
@@ -155,13 +180,70 @@ public class CreateEventActivity extends AppCompatActivity {
         boolean peticionAceptada = false;
         String email = obtenerEmailUsuario();
         String mensaje = mMensajeText.getText().toString();
-        String fecha = mFechaText.getText().toString();
+        String fecha;
+        if (mFechaText.isEnabled()) {
+            fecha = mFechaText.getText().toString();
+        } else {
+            fecha = "";
+        }
         String hora = mHoraText.getText().toString();
 
         EventAdapter adaptadorEventos = new EventAdapter(Constants.CREATE_EVENT, null);
-        Event evento = new Event("", email, mensaje, fecha, hora, "");
+        Event evento = new Event("", email, mensaje, fecha, hora, getPeriodicidad());
         peticionAceptada = adaptadorEventos.enviarPeticionCrearEvento(evento);
         return peticionAceptada;
     }
 
+    private void periodityHab () {
+        boolean habilitar = true;
+
+        if (lunes || martes || miercoles || jueves || viernes || sabado || domingo) {
+            habilitar = false;
+        }
+
+        if (habilitar) {
+            mFechaText.setEnabled(true);
+        } else {
+            mFechaText.setEnabled(false);
+        }
+    }
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.chLunes:
+                lunes = checked ? true : false;
+                periodityHab();
+                break;
+            case R.id.chMartes:
+                martes = checked ? true : false;
+                periodityHab();
+                break;
+            case R.id.chMiercoles:
+                miercoles = checked ? true : false;
+                periodityHab();
+                break;
+            case R.id.chJueves:
+                jueves = checked ? true : false;
+                periodityHab();
+                break;
+            case R.id.chViernes:
+                viernes = checked ? true : false;
+                periodityHab();
+                break;
+            case R.id.chSabado:
+                sabado = checked ? true : false;
+                periodityHab();
+                break;
+            case R.id.chDomingo:
+                domingo = checked ? true : false;
+                periodityHab();
+                break;
+
+            // TODO: Veggie sandwich
+        }
+    }
 }
