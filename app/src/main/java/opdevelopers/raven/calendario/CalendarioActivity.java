@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -62,6 +63,14 @@ public class CalendarioActivity extends AppCompatActivity {
         final ListView eventsListView = (ListView) findViewById(R.id.events_listview);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mutableEventos);
         eventsListView.setAdapter(adapter);
+
+        eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                Log.e("IEEE", String.valueOf(position));
+            }
+        });
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendarView.drawSmallIndicatorForEvents(true);
 
@@ -72,9 +81,9 @@ public class CalendarioActivity extends AppCompatActivity {
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
         // below allows you to configure color for the current day in the month
-        compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         // below allows you to configure colors for the current day the user has selected
-        compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
         compactCalendarView.invalidate();
 
@@ -84,6 +93,7 @@ public class CalendarioActivity extends AppCompatActivity {
         //obtener eventos del usuario
         eventos = obetenerEventos();
         mostrarEventosEnVista();
+        actualizarListaEventos();
 
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -96,32 +106,7 @@ public class CalendarioActivity extends AppCompatActivity {
                 mes = calendar.get(Calendar.MONTH) + 1;
                 anno = calendar.get(Calendar.YEAR);
 
-                //chapuza para evitar que el día 05 no sea el mismo que el 5
-                String diaString;
-
-                if (dia < 10) {
-                    diaString = "0" + String.valueOf(dia);
-                } else {
-                    diaString = String.valueOf(dia);
-                }
-
-                mutableEventos.clear();
-
-                String[] values;
-
-                for (Event e : eventos) {
-                    if (e.getDate().length() != 0) {
-                        values = e.getDate().split("-");
-
-                        if ((values[ANNO].compareTo(String.valueOf(anno)) == 0) &&
-                                (values[MES].compareTo(String.valueOf(mes)) == 0) &&
-                                (values[DIA].compareTo(diaString) == 0)) {
-                            mutableEventos.add(e.getMensaje() + " a las " + e.getTime());
-                        }
-                    }
-                }
-
-                adapter.notifyDataSetChanged();
+                actualizarListaEventos();
             }
 
             @Override
@@ -143,6 +128,35 @@ public class CalendarioActivity extends AppCompatActivity {
         });
     }
 
+    private void actualizarListaEventos() {
+        //chapuza para evitar que el día 05 no sea el mismo que el 5
+        String diaString;
+
+        if (dia < 10) {
+            diaString = "0" + String.valueOf(dia);
+        } else {
+            diaString = String.valueOf(dia);
+        }
+
+        mutableEventos.clear();
+
+        String[] values;
+
+        for (Event e : eventos) {
+            if (e.getDate().length() != 0) {
+                values = e.getDate().split("-");
+
+                if ((values[ANNO].compareTo(String.valueOf(anno)) == 0) &&
+                        (values[MES].compareTo(String.valueOf(mes)) == 0) &&
+                        (values[DIA].compareTo(diaString) == 0)) {
+                    mutableEventos.add(e.getMensaje() + " a las " + e.getTime());
+                }
+            }
+        }
+
+        adapter.notifyDataSetChanged();
+    }
+
 
     /**
      * Obetener eventos de un usuario por su correo elctrónico
@@ -156,31 +170,22 @@ public class CalendarioActivity extends AppCompatActivity {
 
     private String obtenerEmailUsuario() {
         SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
-        String email = prefsCorreo.getString("email", "");
-
-        return email;
+        return prefsCorreo.getString("email", "");
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
-        Log.e("HE llegao", "inutil");
-
         eventos = obetenerEventos();
-
-        for (Event event : eventos) {
-            Log.e("OP", event.toString());
-        }
         mostrarEventosEnVista();
+        actualizarListaEventos();
     }
 
     private void mostrarEventosEnVista() {
         long miliseconds;
         for (Event event : eventos) {
             if ((miliseconds = eventToMiliseconds(event)) == EVENTO_PERIODICO) {
-                Log.e("ERROR", "PREMOH");
-
+                Log.e("IEEE", "EVENTO_PERIODICO");
             } else {
-                Log.e("IEEE", String.valueOf(miliseconds));
                 compactCalendarView.addEvent(new CalendarDayEvent(miliseconds, Color.argb(255, 169, 68, 65), event), false);
             }
         }
