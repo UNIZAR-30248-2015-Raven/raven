@@ -1,10 +1,9 @@
 package opdevelopers.raven.calendario;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,13 +12,10 @@ import android.widget.ListView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import opdevelopers.raven.Constants;
 import opdevelopers.raven.CreateEventActivity;
@@ -31,16 +27,23 @@ import opdevelopers.raven.R;
 /**
  * Created by Daniel on 21/11/2015 based on https://github.com/SundeepK/CompactCalendarView
  */
-public class CalendarioActivity extends ActionBarActivity {
+public class CalendarioActivity extends AppCompatActivity {
     private static int ACTIVITY_CREAR_EVENTO = 1;
+
+    private static int ANNO = 0;
+    private static int MES = 1;
+    private static int DIA = 2;
 
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
-    private Map<Date, List<Event>> events = new HashMap<>();
 
     private int dia = currentCalender.get(Calendar.DAY_OF_MONTH);
     private int mes = currentCalender.get(Calendar.MONTH);
     private int anno = currentCalender.get(Calendar.YEAR);
+
+    private List<Event> events = new ArrayList<>();
+    private List<String> mutableEvents = new ArrayList<>();
+    private ArrayAdapter adapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +51,10 @@ public class CalendarioActivity extends ActionBarActivity {
         setContentView(R.layout.activity_calendario);
 
         final ActionBar actionBar = getSupportActionBar();
-        final List<String> mutableEvents = new ArrayList<>();
 
-        final ListView bookingsListView = (ListView) findViewById(R.id.bookings_listview);
-
-        final ArrayAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mutableEvents);
-        bookingsListView.setAdapter(adapter);
+        final ListView eventsListView = (ListView) findViewById(R.id.events_listview);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mutableEvents);
+        eventsListView.setAdapter(adapter);
         final CompactCalendarView compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendarView.drawSmallIndicatorForEvents(true);
 
@@ -68,14 +69,13 @@ public class CalendarioActivity extends ActionBarActivity {
         // below allows you to configure colors for the current day the user has selected
         compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
 
-        addEvents(compactCalendarView, -1);
-        addEvents(compactCalendarView, Calendar.DECEMBER);
-        addEvents(compactCalendarView, Calendar.AUGUST);
         compactCalendarView.invalidate();
 
         //set initial title
         actionBar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
+        //obtener eventos del usuario
+        events = obetenerEventos();
 
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -85,22 +85,26 @@ public class CalendarioActivity extends ActionBarActivity {
                 calendar.setTime(dateClicked);
 
                 dia = calendar.get(Calendar.DAY_OF_MONTH);
-                mes = calendar.get(Calendar.MONTH);
+                mes = calendar.get(Calendar.MONTH) + 1;
                 anno = calendar.get(Calendar.YEAR);
 
+                mutableEvents.clear();
 
-                List<Event> eventsFromMap = events.get(dateClicked);
-                Log.d("MainActivity", "inside onclick " + dateClicked);
-                if(eventsFromMap != null) {
-                    Log.d("MainActivity", eventsFromMap.toString());
-                    mutableEvents.clear();
-                    for(Event event : eventsFromMap) {
-                        mutableEvents.add(event.getMensaje());
+                String[] values;
+
+                for (Event e : events) {
+                    if (e.getDate().length() != 0) {
+                        values = e.getDate().split("-");
+
+                        if ((values[ANNO].compareTo(String.valueOf(anno)) == 0) &&
+                                (values[MES].compareTo(String.valueOf(mes)) == 0) &&
+                                (values[DIA].compareTo(String.valueOf(dia)) == 0)) {
+                            mutableEvents.add(e.getMensaje() + " " + e.getTime());
+                        }
                     }
-                    // below will remove events
-                    compactCalendarView.removeEvent(new CalendarDayEvent(dateClicked.getTime(), Color.argb(255, 169, 68, 65)), true);
-                    adapter.notifyDataSetChanged();
                 }
+
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -115,49 +119,28 @@ public class CalendarioActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(CalendarioActivity.this, CreateEventActivity.class);
                 intent.putExtra("dia", dia);
-                intent.putExtra("mes", mes + 1);
+                intent.putExtra("mes", mes);
                 intent.putExtra("anno", anno);
                 CalendarioActivity.this.startActivityForResult(intent, ACTIVITY_CREAR_EVENTO);
             }
         });
+    }
 
-        /**
-         * Obetener eventos de un usurio por su correo elctrónico
-         */
-        EventAdapter adaptadorEventos = new EventAdapter(Constants.FETCH_EVENTS, "rgcmb@hotmail.com");
+
+    /**
+     * Obetener eventos de un usuario por su correo elctrónico
+     */
+    private ArrayList<Event> obetenerEventos() {
+        EventAdapter adaptadorEventos = new EventAdapter(Constants.FETCH_EVENTS, "prueba@prueba.com");
         ArrayList<Event> listEvents = (ArrayList) adaptadorEventos.peticionFetchEventos();
-        for(Event ev : listEvents) {
-            System.out.println(ev);
-        }
+
+        return listEvents;
     }
 
-    private void addEvents(CompactCalendarView compactCalendarView, int month) {
-        currentCalender.setTime(new Date());
-        currentCalender.set(Calendar.DAY_OF_MONTH, 1);
-        Date firstDayOfMonth = currentCalender.getTime();
-        for(int i = 0; i < 6; i++){
-            currentCalender.setTime(firstDayOfMonth);
-            if(month > -1){
-                currentCalender.set(Calendar.MONTH, month);
-            }
-            currentCalender.add(Calendar.DATE, i);
-            setToMidnight(currentCalender);
-            compactCalendarView.addEvent(new CalendarDayEvent(currentCalender.getTimeInMillis(),  Color.argb(255, 169, 68, 65)), false);
-            events.put(currentCalender.getTime(), createEvents());
-        }
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
 
-    private List<Event> createEvents() {
-        return Arrays.asList(
-                new Event("id1","email1","mensaje1","date1","time1","periodicidad1"),
-                new Event("id2","email2","mensaje2","date2","time2","periodicidad2"),
-                new Event("id3","email3","mensaje3","date3","time3","periodicidad3"));
-    }
-
-    private void setToMidnight(Calendar calendar) {
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
+        events = obetenerEventos();
     }
 }
