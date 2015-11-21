@@ -1,10 +1,10 @@
 package opdevelopers.raven.calendario;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -29,6 +29,7 @@ import opdevelopers.raven.R;
  */
 public class CalendarioActivity extends AppCompatActivity {
     private static int ACTIVITY_CREAR_EVENTO = 1;
+    private static final String USUARIO = "CorreoUsuario";
 
     private static int ANNO = 0;
     private static int MES = 1;
@@ -131,10 +132,17 @@ public class CalendarioActivity extends AppCompatActivity {
      * Obetener eventos de un usuario por su correo elctrónico
      */
     private ArrayList<Event> obetenerEventos() {
-        EventAdapter adaptadorEventos = new EventAdapter(Constants.FETCH_EVENTS, "prueba@prueba.com");
+        EventAdapter adaptadorEventos = new EventAdapter(Constants.FETCH_EVENTS, obtenerEmailUsuario());
         ArrayList<Event> listEvents = (ArrayList) adaptadorEventos.peticionFetchEventos();
 
         return listEvents;
+    }
+
+    private String obtenerEmailUsuario() {
+        SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
+        String email = prefsCorreo.getString("email", "");
+
+        return email;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
