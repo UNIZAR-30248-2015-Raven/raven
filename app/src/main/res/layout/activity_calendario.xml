@@ -1,21 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity">
 
-    <CalendarView
-        android:layout_width="match_parent"
-        android:layout_height="444dp"
-        android:id="@+id/calendarView" />
+    <opdevelopers.raven.calendario.CompactCalendarView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/compactcalendar_view"
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        app:compactCalendarTextSize="12sp"
+        app:compactCalendarBackgroundColor="#ffe95451"
+        app:compactCalendarTextColor="#fff"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
+        app:compactCalendarCurrentDayBackgroundColor="#B71C1C"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/crear_evento"
+        android:id="@+id/boton_crear_evento"
         style="?android:attr/borderlessButtonStyle"
         android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
-        android:text="@string/crear_evento"
-        android:id="@+id/botonCrearEvento"
-        android:layout_gravity="right" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-</LinearLayout>
+    <ListView
+        android:id="@+id/bookings_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/boton_crear_evento"
+        android:layout_alignEnd="@+id/boton_crear_evento"
+        android:layout_below="@+id/compactcalendar_view">
+    </ListView>
+
+</RelativeLayout>

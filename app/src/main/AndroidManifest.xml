@@ -18,11 +18,11 @@
         <activity
             android:name=".MainActivity"   />
         <activity
-            android:name=".CalendarioActivity"   />
-        <activity
             android:name=".CreateAccountActivity"   />
         <activity
             android:name=".CreateEventActivity" />
+        <activity
+            android:name=".calendario.CalendarioActivity"/>
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name" >
