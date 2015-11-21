@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
 import opdevelopers.raven.calendario.CalendarioActivity;
@@ -17,6 +16,7 @@ import opdevelopers.raven.calendario.CalendarioActivity;
  */
 public class MainActivity extends AppCompatActivity {
     private static final int ACTIVITY_CALENDARIO = 1;
+    private static final int ACTIVITY_CLIENTE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.log_out:
                 logOut();
                 return true;
+            case R.id.cuenta_usuario:
+                verCuentaUsuario();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -56,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(i);
         finish();
+    }
+
+    private void verCuentaUsuario() {
+        Intent i = new Intent(MainActivity.this, CreateAccountActivity.class);
+        MainActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
     }
 
 }

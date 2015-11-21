@@ -35,8 +35,15 @@ public class CreateAccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        email = obtenerEmailUsuario();
+
         setContentView(R.layout.activity_create_account);
-        setTitle(R.string.registrarse);
+        if (!email.equals("")) {
+            setTitle(R.string.ver_cuenta);
+        }
+        else {
+            setTitle(R.string.registrarse);
+        }
 
         mNombreText = (EditText) findViewById(R.id.nombre);
         mApellidoText = (EditText) findViewById(R.id.apellido);
@@ -50,25 +57,36 @@ public class CreateAccountActivity extends AppCompatActivity {
         mApellidoContactoText = (EditText) findViewById(R.id.apellidoContacto);
         mTelefonoContactoText = (EditText) findViewById(R.id.telefonoContacto);
 
-        Button botonSeguir = (Button) findViewById(R.id.seguir);
+        Button botonAceptar = (Button) findViewById(R.id.aceptar);
 
-        botonSeguir.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                boolean registrado = registrarUsuario();
-                if (registrado) {
-                    actualizarPrefsUsuario();
-                    Toast.makeText(getApplicationContext(), R.string.exito_datos,
-                            Toast.LENGTH_SHORT).show();
+        if (!email.equals("")) {
+            rellenarDatosUsuario();
+
+            botonAceptar.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
                     Intent i = new Intent(CreateAccountActivity.this, MainActivity.class);
                     CreateAccountActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), R.string.error_datos,
-                            Toast.LENGTH_SHORT).show();
+            });
+        }
+        else {
+            botonAceptar.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    boolean registrado = registrarUsuario();
+                    if (registrado) {
+                        actualizarPrefsUsuario();
+                        Toast.makeText(getApplicationContext(), R.string.exito_datos,
+                                Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(CreateAccountActivity.this, MainActivity.class);
+                        CreateAccountActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.error_datos,
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-        });
+            });
+        }
     }
 
     private void actualizarPrefsUsuario() {
@@ -78,11 +96,17 @@ public class CreateAccountActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    private String obtenerEmailUsuario() {
+        SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
+        String email = prefsCorreo.getString("email", null);
+        return email;
+    }
+
     /*
      * Envía una petición http con los datos introducidos por el usuario para registrarlos en la
      * base de datos del servidor.
      */
-    public boolean registrarUsuario() {
+    private boolean registrarUsuario() {
         boolean peticionAceptada = false;
         try {
             String nombre = mNombreText.getText().toString();
@@ -97,7 +121,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             String apellidoContacto = mApellidoContactoText.getText().toString();
             String telefonoContacto = mTelefonoContactoText.getText().toString();
 
-            UserAdapter adaptadorUsuarios = new UserAdapter(true);
+            UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, true);
             User usuario = new User(nombre, apellido, email, anyoNacimiento, telefono, infoMedica,
                     residencia, contrasenya, nombreContacto, apellidoContacto, telefonoContacto);
             peticionAceptada = adaptadorUsuarios.enviarPeticionRegistrar(usuario);
@@ -106,6 +130,33 @@ public class CreateAccountActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return peticionAceptada;
+    }
+
+    private void rellenarDatosUsuario() {
+        UserAdapter adaptadorUsuarios = new UserAdapter(Constants.FETCH_USER, false, email);
+        User usuario = adaptadorUsuarios.peticionFetchUsuario();
+        mNombreText.setText(usuario.getNombre());
+        mNombreText.setEnabled(false);
+        mApellidoText.setText(usuario.getApellido());
+        mApellidoText.setEnabled(false);
+        mEmailText.setText(usuario.getEmail());
+        mEmailText.setEnabled(false);
+        mAnyoNacimientoText.setText(usuario.getAnyoNacimiento());
+        mAnyoNacimientoText.setEnabled(false);
+        mTelefonoText.setText(usuario.getTelefono());
+        mTelefonoText.setEnabled(false);
+        mInfoMedicaText.setText(usuario.getInfoMedica());
+        mInfoMedicaText.setEnabled(false);
+        mResidenciaText.setText(usuario.getResidencia());
+        mResidenciaText.setEnabled(false);
+        mContrasenyaText.setText(usuario.getContrasenya());
+        mContrasenyaText.setEnabled(false);
+        mNombreContactoText.setText(usuario.getNombreContacto());
+        mNombreContactoText.setEnabled(false);
+        mApellidoContactoText.setText(usuario.getApellidoContacto());
+        mApellidoContactoText.setEnabled(false);
+        mTelefonoContactoText.setText(usuario.getTelefonoContacto());
+        mTelefonoContactoText.setEnabled(false);
     }
 
 }

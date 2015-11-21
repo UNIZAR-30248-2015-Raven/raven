@@ -57,7 +57,7 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
                         result.append(line);
                     }
                     rd.close();
-                break;
+                    break;
             }
 
         } catch (IOException e) {
@@ -68,7 +68,7 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
     private List<Event> jsonFormatter(String json) {
         List<Event> listaEventos = new ArrayList<>();
         try {
-            JSONArray jsonArray = new JSONArray(result.toString());
+            JSONArray jsonArray = new JSONArray(json);
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonOb = new JSONObject(jsonArray.get(i).toString());
                 listaEventos.add(new Event(jsonOb.getString("id_event"),

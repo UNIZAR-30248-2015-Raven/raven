@@ -2,6 +2,7 @@
     <string name="app_name">raven</string>
 
     <string name="registrarse">Registrarse</string>
+    <string name="ver_cuenta">Ver cuenta</string>
     <string name="menu">Menú</string>
     <string name="calendario">Calendario</string>
     <string name="crear_evento">Crear evento</string>
@@ -30,12 +31,14 @@
     <string name="prompt_time">Hora</string>
 
     <string name="log_out">Cerrar sesión</string>
+    <string name="cuenta_usuario">Cuenta de usuario</string>
 
     <string name="error_datos">Datos introducidos erróneamente</string>
     <string name="exito_datos">Datos introducidos correctamente</string>
     <string name="exito_sesion">Bienvenido</string>
 
     <string name="seguir">SEGUIR</string>
+    <string name="aceptar">ACEPTAR</string>
     <string name="iniciar_sesion">INICIAR SESIÓN</string>
     <string name="registrar">REGISTRARSE</string>
 </resources>

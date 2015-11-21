@@ -154,9 +154,9 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <Button android:id="@+id/seguir" style="?android:attr/borderlessButtonStyle"
+            <Button android:id="@+id/aceptar" style="?android:attr/borderlessButtonStyle"
                 android:layout_width="125dp" android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" android:text="@string/seguir"
+                android:layout_marginTop="16dp" android:text="@string/aceptar"
                 android:textStyle="bold" android:textColor="@color/colorPrimaryDark"
                 android:layout_gravity="right" />
 

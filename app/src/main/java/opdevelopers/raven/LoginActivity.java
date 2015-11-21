@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
         botonRegistrar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                inicializarPrefsUsuario();
                 Intent i = new Intent(LoginActivity.this, CreateAccountActivity.class);
                 LoginActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
             }
@@ -64,6 +65,13 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
         SharedPreferences.Editor editor = prefsCorreo.edit();
         editor.putString("email", email);
+        editor.commit();
+    }
+
+    private void inicializarPrefsUsuario() {
+        SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
+        SharedPreferences.Editor editor = prefsCorreo.edit();
+        editor.putString("email", "");
         editor.commit();
     }
 
@@ -78,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             email = mEmailText.getText().toString();
             String contrasenya = mContrasenyaText.getText().toString();
 
-            UserAdapter adaptadorUsuarios = new UserAdapter(false);
+            UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, false);
             User usuario = new User(email, contrasenya);
 
             sesionAceptada = adaptadorUsuarios.enviarPeticionSesion(usuario);

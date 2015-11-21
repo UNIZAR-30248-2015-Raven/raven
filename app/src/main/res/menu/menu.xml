@@ -3,4 +3,7 @@
     <item android:id="@+id/log_out"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/log_out" />
+    <item android:id="@+id/cuenta_usuario"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/cuenta_usuario" />
 </menu>
