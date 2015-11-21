@@ -27,8 +27,8 @@ public class CompactCalendarView extends View {
     private boolean shouldScroll = true;
 
     public interface CompactCalendarViewListener {
-        public void onDayClick(Date dateClicked);
-        public void onMonthScroll(Date firstDayOfNewMonth);
+        void onDayClick(Date dateClicked);
+        void onMonthScroll(Date firstDayOfNewMonth);
     }
 
     private final GestureDetector.SimpleOnGestureListener gestureListener = new GestureDetector.SimpleOnGestureListener() {

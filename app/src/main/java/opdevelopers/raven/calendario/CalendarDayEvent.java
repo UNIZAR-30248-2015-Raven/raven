@@ -1,5 +1,7 @@
 package opdevelopers.raven.calendario;
 
+import opdevelopers.raven.Event;
+
 /**
  * Created by Daniel on 21/11/2015 based on https://github.com/SundeepK/CompactCalendarView
  */
@@ -7,10 +9,12 @@ public class CalendarDayEvent {
 
     private final long timeInMillis;
     private final int color;
+    private final Event event;
 
-    public CalendarDayEvent(final long timeInMillis, final int color) {
+    public CalendarDayEvent(final long timeInMillis, final int color, final Event event) {
         this.timeInMillis = timeInMillis;
         this.color = color;
+        this.event = event;
     }
 
     public long getTimeInMillis() {
@@ -19,6 +23,10 @@ public class CalendarDayEvent {
 
     public int getColor() {
         return color;
+    }
+
+    public Event getEvent() {
+        return event;
     }
 
     @Override
@@ -47,6 +55,12 @@ public class CalendarDayEvent {
         return "CalendarDayEvent{" +
                 "timeInMillis=" + timeInMillis +
                 ", color=" + color +
+                ", id = " + event.getId() +
+                ", email = " + event.getEmail() +
+                ", mensaje = " + event.getMensaje() +
+                ", date = " + event.getDate() +
+                ", time = " + event.getTime() +
+                ", periodicidad = " + event.getPeriodicidad() +
                 '}';
     }
 }
