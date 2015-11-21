@@ -196,7 +196,7 @@ public class CreateEventActivity extends AppCompatActivity {
         return peticionAceptada;
     }
 
-    private void periodityHab () {
+    private void periodityHab() {
         boolean habilitar = true;
 
         if (lunes || martes || miercoles || jueves || viernes || sabado || domingo) {
@@ -211,10 +211,10 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
     public void onCheckboxClicked(View view) {
-        // Is the view now checked?
+        // ¿Está el objeto View ahora chequeado?
         boolean checked = ((CheckBox) view).isChecked();
 
-        // Check which checkbox was clicked
+        // Comprueba qué checkbox ha sido clicado
         switch(view.getId()) {
             case R.id.chLunes:
                 lunes = checked ? true : false;
@@ -244,8 +244,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 domingo = checked ? true : false;
                 periodityHab();
                 break;
-
-            // TODO: Veggie sandwich
         }
     }
 }

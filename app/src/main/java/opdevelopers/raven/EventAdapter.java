@@ -33,6 +33,7 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
     HashMap<String, String> postDataParams = null;
     int responseCode = -1;
     StringBuilder result = new StringBuilder();
+
     public EventAdapter(int typeRequest, String... getParams) {
         try {
             switch (typeRequest) {
@@ -45,7 +46,6 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
                     conn.setDoOutput(true);
                     break;
                 case Constants.FETCH_EVENTS:
-
                     URL url2 = url2 = new URL("http://raven-sirbargus.rhcloud.com/getEvents/" + getParams[0]);
                     conn = (HttpURLConnection) url2.openConnection();
                     conn.setReadTimeout(15000);
@@ -71,7 +71,6 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
             JSONArray jsonArray = new JSONArray(result.toString());
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonOb = new JSONObject(jsonArray.get(i).toString());
-                //System.out.println("OPIDEVENTO¡¡¡¡¡  " + jsonOb.getString("id_event"));
                 listaEventos.add(new Event(jsonOb.getString("id_event"),
                         jsonOb.getString("email"),
                         jsonOb.getString("texto"),
@@ -79,9 +78,7 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
                         jsonOb.getString("hour"),
                         jsonOb.getString("periodicidad")
                 ));
-                //System.out.println(jsonArray.get(i));
             }
-            //System.out.println(jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }

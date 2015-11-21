@@ -61,67 +61,75 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <View android:layout_width="fill_parent"
+                android:layout_height="10dip" />
+
+            <LinearLayout android:orientation="horizontal" android:layout_width="295dp"
+                android:layout_height="fill_parent" android:layout_gravity="center_horizontal">
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="L"
+                    android:id="@+id/chLunes"
+                    android:checked="false"
+                    android:onClick="onCheckboxClicked" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="M"
+                    android:id="@+id/chMartes"
+                    android:checked="false"
+                    android:onClick="onCheckboxClicked" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="X"
+                    android:id="@+id/chMiercoles"
+                    android:checked="false"
+                    android:onClick="onCheckboxClicked" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="J"
+                    android:id="@+id/chJueves"
+                    android:checked="false"
+                    android:onClick="onCheckboxClicked" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="V"
+                    android:id="@+id/chViernes"
+                    android:checked="false"
+                    android:onClick="onCheckboxClicked" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="S"
+                    android:id="@+id/chSabado"
+                    android:checked="false"
+                    android:onClick="onCheckboxClicked" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="D"
+                    android:id="@+id/chDomingo"
+                    android:checked="false"
+                    android:onClick="onCheckboxClicked" />
+
+            </LinearLayout>
+
             <Button android:id="@+id/seguir" style="?android:attr/borderlessButtonStyle"
                 android:layout_width="125dp" android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" android:text="@string/seguir"
                 android:textStyle="bold" android:textColor="@color/colorPrimaryDark"
                 android:layout_gravity="right" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lunes"
-                android:id="@+id/chLunes"
-                android:checked="false"
-                android:onClick="onCheckboxClicked" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Martes"
-                android:id="@+id/chMartes"
-                android:checked="false"
-                android:onClick="onCheckboxClicked" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Miercoles"
-                android:id="@+id/chMiercoles"
-                android:checked="false"
-                android:onClick="onCheckboxClicked" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Jueves"
-                android:id="@+id/chJueves"
-                android:checked="false"
-                android:onClick="onCheckboxClicked" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Viernes"
-                android:id="@+id/chViernes"
-                android:checked="false"
-                android:onClick="onCheckboxClicked" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sabado"
-                android:id="@+id/chSabado"
-                android:checked="false"
-                android:onClick="onCheckboxClicked" />
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Domingo"
-                android:id="@+id/chDomingo"
-                android:checked="false"
-                android:onClick="onCheckboxClicked" />
 
         </LinearLayout>
     </ScrollView>
