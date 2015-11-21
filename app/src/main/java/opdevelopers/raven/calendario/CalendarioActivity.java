@@ -2,9 +2,11 @@ package opdevelopers.raven.calendario;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,21 +32,25 @@ import opdevelopers.raven.R;
 public class CalendarioActivity extends AppCompatActivity {
     private static int ACTIVITY_CREAR_EVENTO = 1;
     private static final String USUARIO = "CorreoUsuario";
+    private static final int EVENTO_PERIODICO = -1;
 
-    private static int ANNO = 0;
-    private static int MES = 1;
-    private static int DIA = 2;
+    private static final int ANNO = 0;
+    private static final int MES = 1;
+    private static final int DIA = 2;
+    private static final int HORAS = 0;
+    private static final int MINUTOS = 0;
 
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
 
     private int dia = currentCalender.get(Calendar.DAY_OF_MONTH);
-    private int mes = currentCalender.get(Calendar.MONTH);
+    private int mes = currentCalender.get(Calendar.MONTH) + 1;
     private int anno = currentCalender.get(Calendar.YEAR);
 
-    private List<Event> events = new ArrayList<>();
-    private List<String> mutableEvents = new ArrayList<>();
+    private List<Event> eventos = new ArrayList<>();
+    private List<String> mutableEventos = new ArrayList<>();
     private ArrayAdapter adapter = null;
+    private CompactCalendarView compactCalendarView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +60,9 @@ public class CalendarioActivity extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
 
         final ListView eventsListView = (ListView) findViewById(R.id.events_listview);
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mutableEvents);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mutableEventos);
         eventsListView.setAdapter(adapter);
-        final CompactCalendarView compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
+        compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendarView.drawSmallIndicatorForEvents(true);
 
         //calendario en español
@@ -76,7 +82,8 @@ public class CalendarioActivity extends AppCompatActivity {
         actionBar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
         //obtener eventos del usuario
-        events = obetenerEventos();
+        eventos = obetenerEventos();
+        mostrarEventosEnVista();
 
         //set title on calendar scroll
         compactCalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
@@ -89,18 +96,27 @@ public class CalendarioActivity extends AppCompatActivity {
                 mes = calendar.get(Calendar.MONTH) + 1;
                 anno = calendar.get(Calendar.YEAR);
 
-                mutableEvents.clear();
+                //chapuza para evitar que el día 05 no sea el mismo que el 5
+                String diaString;
+
+                if (dia < 10) {
+                    diaString = "0" + String.valueOf(dia);
+                } else {
+                    diaString = String.valueOf(dia);
+                }
+
+                mutableEventos.clear();
 
                 String[] values;
 
-                for (Event e : events) {
+                for (Event e : eventos) {
                     if (e.getDate().length() != 0) {
                         values = e.getDate().split("-");
 
                         if ((values[ANNO].compareTo(String.valueOf(anno)) == 0) &&
                                 (values[MES].compareTo(String.valueOf(mes)) == 0) &&
-                                (values[DIA].compareTo(String.valueOf(dia)) == 0)) {
-                            mutableEvents.add(e.getMensaje() + " " + e.getTime());
+                                (values[DIA].compareTo(diaString) == 0)) {
+                            mutableEventos.add(e.getMensaje() + " a las " + e.getTime());
                         }
                     }
                 }
@@ -147,8 +163,41 @@ public class CalendarioActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("HE llegao", "inutil");
 
-        events = obetenerEventos();
+        eventos = obetenerEventos();
+
+        for (Event event : eventos) {
+            Log.e("OP", event.toString());
+        }
+        mostrarEventosEnVista();
+    }
+
+    private void mostrarEventosEnVista() {
+        long miliseconds;
+        for (Event event : eventos) {
+            if ((miliseconds = eventToMiliseconds(event)) == EVENTO_PERIODICO) {
+                Log.e("ERROR", "PREMOH");
+
+            } else {
+                Log.e("IEEE", String.valueOf(miliseconds));
+                compactCalendarView.addEvent(new CalendarDayEvent(miliseconds, Color.argb(255, 169, 68, 65), event), false);
+            }
+        }
+    }
+
+    private long eventToMiliseconds(Event evento) {
+        String[] valuesTime = evento.getTime().split(":");
+        String[] valuesDate;
+        if (evento.getDate().length() != 0) {
+            valuesDate = evento.getDate().split("-");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Integer.parseInt(valuesDate[ANNO]), Integer.parseInt(valuesDate[MES]) - 1, Integer.parseInt(valuesDate[DIA]),
+                    Integer.parseInt(valuesTime[HORAS]), Integer.parseInt(valuesTime[MINUTOS]), 0);
+
+            return calendar.getTimeInMillis();
+        }
+
+        return EVENTO_PERIODICO;
     }
 }

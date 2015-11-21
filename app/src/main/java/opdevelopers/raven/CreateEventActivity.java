@@ -144,8 +144,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 if (guardado) {
                     Toast.makeText(getApplicationContext(), R.string.exito_datos,
                             Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(CreateEventActivity.this, CalendarioActivity.class);
-                    CreateEventActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
+                    finish();
                 }
                 else {
                     Toast.makeText(getApplicationContext(), R.string.error_datos,
