@@ -34,7 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/boton_crear_evento"
         android:layout_alignEnd="@+id/boton_crear_evento"
-        android:layout_below="@+id/compactcalendar_view">
+        android:layout_below="@+id/compactcalendar_view"
+        android:layout_above="@+id/boton_crear_evento">
     </ListView>
 
 </RelativeLayout>
