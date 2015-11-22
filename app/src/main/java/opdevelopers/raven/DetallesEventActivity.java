@@ -41,24 +41,28 @@ public class DetallesEventActivity extends AppCompatActivity {
 
         mMensajeText = (EditText) findViewById(R.id.mensaje);
         mMensajeText.setText(mensaje, TextView.BufferType.EDITABLE);
-        mMensajeText.setKeyListener(null);
+        mMensajeText.setEnabled(false);
+        mMensajeText.setFocusable(false);
 
         mFechaText = (EditText) findViewById(R.id.date);
         mFechaText.setText(date, TextView.BufferType.EDITABLE);
-        mFechaText.setOnClickListener(null);
+        mFechaText.setEnabled(false);
         mFechaText.setFocusable(false);
 
         mHoraText = (EditText) findViewById(R.id.time);
         mHoraText.setText(hora, TextView.BufferType.EDITABLE);
-        mHoraText.setOnClickListener(null);
+        mHoraText.setEnabled(false);
         mHoraText.setFocusable(false);
 
         Button botonSeguir = (Button) findViewById(R.id.seguir);
-        botonSeguir.setOnClickListener(null);
-        botonSeguir.setVisibility(View.INVISIBLE);
+        botonSeguir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         mLunes = (CheckBox) findViewById(R.id.chLunes);
-        //mLunes.setChecked(true);
         mLunes.setEnabled(false);
 
         mMartes = (CheckBox) findViewById(R.id.chMartes);

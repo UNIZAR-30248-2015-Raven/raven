@@ -42,6 +42,16 @@ public class CalendarioActivity extends AppCompatActivity {
     private static final int DIA = 2;
     private static final int HORAS = 0;
     private static final int MINUTOS = 0;
+    private static final int SEMANA_ANNO = 53;
+
+
+    private static final String LUNES = "L";
+    private static final String MARTES = "M";
+    private static final String MIERCOLES = "X";
+    private static final String JUEVES = "J";
+    private static final String VIERNES = "V";
+    private static final String SABADO = "S";
+    private static final String DOMINGO = "D";
 
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
@@ -69,6 +79,7 @@ public class CalendarioActivity extends AppCompatActivity {
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mutableEventos);
         eventsListView.setAdapter(adapter);
 
+        //cuando se pulsa sobre un item de la lista se muestra detalladamente el evento pulsado
         eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
@@ -85,6 +96,7 @@ public class CalendarioActivity extends AppCompatActivity {
                 CalendarioActivity.this.startActivityForResult(intent, ACTIVITY_DETALLAR_EVENTO);
             }
         });
+
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendarView.drawSmallIndicatorForEvents(true);
 
@@ -94,9 +106,8 @@ public class CalendarioActivity extends AppCompatActivity {
 
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
-        // below allows you to configure color for the current day in the month
+        //color primario
         compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        // below allows you to configure colors for the current day the user has selected
         compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
         compactCalendarView.invalidate();
@@ -104,7 +115,7 @@ public class CalendarioActivity extends AppCompatActivity {
         //set initial title
         actionBar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
-        //obtener eventos del usuario
+        //obtener eventos del usuario y actualizar vista
         eventos = obetenerEventos();
         mostrarEventosEnVista();
         actualizarListaEventos();
@@ -130,6 +141,7 @@ public class CalendarioActivity extends AppCompatActivity {
         });
 
         Button crearEvento = (Button) findViewById(R.id.boton_crear_evento);
+
         crearEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,8 +154,11 @@ public class CalendarioActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Actualiza la lista de eventos que se muestra en un día concreto
+     */
     private void actualizarListaEventos() {
-        //chapuza para evitar que el día 05 no sea el mismo que el 5
+        //evitar que el día 05 no sea el mismo que el 5
         String diaString;
 
         if (dia < 10) {
@@ -152,6 +167,7 @@ public class CalendarioActivity extends AppCompatActivity {
             diaString = String.valueOf(dia);
         }
 
+        //borrar los posibles eventos que se puedan estar mostrando al usuario
         mutableEventos.clear();
         listViewEventos.clear();
 
@@ -170,12 +186,14 @@ public class CalendarioActivity extends AppCompatActivity {
             }
         }
 
+        //notificamos cambios
         adapter.notifyDataSetChanged();
     }
 
-
     /**
-     * Obetener eventos de un usuario por su correo elctrónico
+     * Obtener eventos de usuario
+     *
+     * @return lista de eventos asociados al usuario
      */
     private ArrayList<Event> obetenerEventos() {
         EventAdapter adaptadorEventos = new EventAdapter(Constants.FETCH_EVENTS, obtenerEmailUsuario());
@@ -184,30 +202,46 @@ public class CalendarioActivity extends AppCompatActivity {
         return listEvents;
     }
 
+    /**
+     * Obtiene el email asociado al usuario
+     *
+     * @return email
+     */
     private String obtenerEmailUsuario() {
         SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
         return prefsCorreo.getString("email", "");
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        eventos = obetenerEventos();
-        mostrarEventosEnVista();
-        actualizarListaEventos();
+        if (requestCode == ACTIVITY_CREAR_EVENTO) {
+            eventos = obetenerEventos();
+            mostrarEventosEnVista();
+            actualizarListaEventos();
+        }
     }
 
+    /**
+     * Dibuja el indicador de eventos en el calendario
+     */
     private void mostrarEventosEnVista() {
         long miliseconds;
         for (Event event : eventos) {
-            if ((miliseconds = eventToMiliseconds(event)) == EVENTO_PERIODICO) {
+            if ((miliseconds = toMiliseconds(event)) == EVENTO_PERIODICO) {
                 Log.e("IEEE", "EVENTO_PERIODICO");
+                anndirEventosPeriodicos(event);
             } else {
-                compactCalendarView.addEvent(new CalendarDayEvent(miliseconds, Color.argb(255, 169, 68, 65), event), false);
+                compactCalendarView.addEvent(new CalendarDayEvent(miliseconds, Color.argb(255, 169, 68, 65)), false);
             }
         }
     }
 
-    private long eventToMiliseconds(Event evento) {
+    /**
+     * Calcula los milisegundos equivalentes a un evento
+     *
+     * @param evento para ser transformado en milisegundos
+     * @return milisegundos
+     */
+    private long toMiliseconds(Event evento) {
         String[] valuesTime = evento.getTime().split(":");
         String[] valuesDate;
         if (evento.getDate().length() != 0) {
@@ -220,5 +254,68 @@ public class CalendarioActivity extends AppCompatActivity {
         }
 
         return EVENTO_PERIODICO;
+    }
+
+    /**
+     * Añade el indicador de eventos periódicos a la vista del calendario
+     *
+     * @param evento a añadir
+     */
+    private void anndirEventosPeriodicos(Event evento) {
+        String[] periodicidad = evento.getPeriodicidad().split(" ");
+        List<Integer> diasSemanaEvento = new ArrayList<>();
+
+        // realiza la conversión de la codificación de la base de datos (v.g: D) a la de
+        // correspondiente a la clase Calendar (v.g: Calendar.SUNDAY)
+        for (String s : periodicidad) {
+            switch (s) {
+                case LUNES:
+                    diasSemanaEvento.add(Calendar.MONDAY);
+                    break;
+                case MARTES:
+                    diasSemanaEvento.add(Calendar.TUESDAY);
+                    break;
+                case MIERCOLES:
+                    diasSemanaEvento.add(Calendar.WEDNESDAY);
+                    break;
+                case JUEVES:
+                    diasSemanaEvento.add(Calendar.THURSDAY);
+                    break;
+                case VIERNES:
+                    diasSemanaEvento.add(Calendar.FRIDAY);
+                    break;
+                case SABADO:
+                    diasSemanaEvento.add(Calendar.SATURDAY);
+                    break;
+                case DOMINGO:
+                    diasSemanaEvento.add(Calendar.SUNDAY);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        Calendar currentCalendar;
+        Date today = new Date();
+
+        // para cada uno de los días en los cuales se repite el evento
+        for (Integer diaSemana : diasSemanaEvento) {
+            currentCalendar = Calendar.getInstance();
+            currentCalendar.setTime(today);
+
+            // buscamos el siguiente que se repita. Por ejemplo, si estamos a jueves y el evento se
+            // repite un miércoles tendremos que buscar el miércoles más próximo
+            while (currentCalendar.get(Calendar.DAY_OF_WEEK) != diaSemana) {
+                // sumamos un día al calendario
+                currentCalendar.add(Calendar.DATE, 1);
+            }
+
+            // una vez encontrado el día, pintamos el evento sumando una semana en cada iteración
+            // durante un año
+            for (int i = 0; i < SEMANA_ANNO; i++, currentCalendar.add(Calendar.WEEK_OF_MONTH, 1)) {
+                compactCalendarView.addEvent(new CalendarDayEvent(currentCalendar.getTimeInMillis(),
+                        Color.argb(255, 169, 68, 65)), false);
+            }
+        }
     }
 }
