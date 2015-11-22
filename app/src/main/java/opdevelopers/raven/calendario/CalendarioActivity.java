@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import opdevelopers.raven.Constants;
 import opdevelopers.raven.CreateEventActivity;
+import opdevelopers.raven.DetallesEventActivity;
 import opdevelopers.raven.Event;
 import opdevelopers.raven.EventAdapter;
 import opdevelopers.raven.R;
@@ -32,6 +33,7 @@ import opdevelopers.raven.R;
  */
 public class CalendarioActivity extends AppCompatActivity {
     private static int ACTIVITY_CREAR_EVENTO = 1;
+    private static int ACTIVITY_DETALLAR_EVENTO = 2;
     private static final String USUARIO = "CorreoUsuario";
     private static final int EVENTO_PERIODICO = -1;
 
@@ -53,6 +55,9 @@ public class CalendarioActivity extends AppCompatActivity {
     private ArrayAdapter adapter = null;
     private CompactCalendarView compactCalendarView = null;
 
+    //correspondencia entre las posiciones del ListView y los objetos Event que referencian
+    private List<Event> listViewEventos = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +73,16 @@ public class CalendarioActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                Log.e("IEEE", String.valueOf(position));
+                Intent intent = new Intent(CalendarioActivity.this, DetallesEventActivity.class);
+
+                intent.putExtra("id", listViewEventos.get(position).getId());
+                intent.putExtra("email", listViewEventos.get(position).getEmail());
+                intent.putExtra("mensaje", listViewEventos.get(position).getMensaje());
+                intent.putExtra("date", listViewEventos.get(position).getDate());
+                intent.putExtra("hora", listViewEventos.get(position).getTime());
+                intent.putExtra("periodicidad", listViewEventos.get(position).getPeriodicidad());
+
+                CalendarioActivity.this.startActivityForResult(intent, ACTIVITY_DETALLAR_EVENTO);
             }
         });
         compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
@@ -139,17 +153,19 @@ public class CalendarioActivity extends AppCompatActivity {
         }
 
         mutableEventos.clear();
+        listViewEventos.clear();
 
         String[] values;
 
-        for (Event e : eventos) {
-            if (e.getDate().length() != 0) {
-                values = e.getDate().split("-");
+        for (Event evento : eventos) {
+            if (evento.getDate().length() != 0) {
+                values = evento.getDate().split("-");
 
                 if ((values[ANNO].compareTo(String.valueOf(anno)) == 0) &&
                         (values[MES].compareTo(String.valueOf(mes)) == 0) &&
                         (values[DIA].compareTo(diaString) == 0)) {
-                    mutableEventos.add(e.getMensaje() + " a las " + e.getTime());
+                    mutableEventos.add(evento.getMensaje() + " a las " + evento.getTime());
+                    listViewEventos.add(evento);
                 }
             }
         }

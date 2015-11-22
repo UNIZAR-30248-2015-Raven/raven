@@ -24,6 +24,8 @@
         <activity
             android:name=".calendario.CalendarioActivity"/>
         <activity
+            android:name=".DetallesEventActivity"/>
+        <activity
             android:name=".LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
