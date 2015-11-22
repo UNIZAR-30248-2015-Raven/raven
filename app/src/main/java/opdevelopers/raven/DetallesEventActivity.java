@@ -9,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import opdevelopers.raven.calendario.CalendarioActivity;
+
 /**
  * Created by Daniel on 22/11/2015.
  */
@@ -35,6 +37,7 @@ public class DetallesEventActivity extends AppCompatActivity {
         String mensaje = intent.getStringExtra("mensaje");
         String date = intent.getStringExtra("date");
         String hora = intent.getStringExtra("hora");
+        String periodicidad = intent.getStringExtra("periodicidad");
 
         setContentView(R.layout.activity_create_event);
         setTitle(R.string.crear_evento);
@@ -82,5 +85,42 @@ public class DetallesEventActivity extends AppCompatActivity {
 
         mDomingo = (CheckBox) findViewById(R.id.chDomingo);
         mDomingo.setEnabled(false);
+
+        if (periodicidad.length() != 0) {
+            mFechaText.setText(" ", TextView.BufferType.EDITABLE);
+            checkCheckboxes(periodicidad);
+        }
+    }
+
+    private void checkCheckboxes(String periodicidad) {
+        String[] dias = periodicidad.split(" ");
+
+        for (String s : dias) {
+            switch (s) {
+                case CalendarioActivity.LUNES:
+                    mLunes.setChecked(true);
+                    break;
+                case CalendarioActivity.MARTES:
+                    mMartes.setChecked(true);
+                    break;
+                case CalendarioActivity.MIERCOLES:
+                    mMiercoles.setChecked(true);
+                    break;
+                case CalendarioActivity.JUEVES:
+                    mJueves.setChecked(true);
+                    break;
+                case CalendarioActivity.VIERNES:
+                    mViernes.setChecked(true);
+                    break;
+                case CalendarioActivity.SABADO:
+                    mSabado.setChecked(true);
+                    break;
+                case CalendarioActivity.DOMINGO:
+                    mDomingo.setChecked(true);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

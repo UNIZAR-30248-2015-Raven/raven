@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,18 +47,19 @@ public class CalendarioActivity extends AppCompatActivity {
     private static final int SEMANA_ANNO = 53;
 
 
-    private static final String LUNES = "L";
-    private static final String MARTES = "M";
-    private static final String MIERCOLES = "X";
-    private static final String JUEVES = "J";
-    private static final String VIERNES = "V";
-    private static final String SABADO = "S";
-    private static final String DOMINGO = "D";
+    public static final String LUNES = "L";
+    public static final String MARTES = "M";
+    public static final String MIERCOLES = "X";
+    public static final String JUEVES = "J";
+    public static final String VIERNES = "V";
+    public static final String SABADO = "S";
+    public static final String DOMINGO = "D";
 
     private Calendar currentCalender = Calendar.getInstance(Locale.getDefault());
     private SimpleDateFormat dateFormatForMonth = new SimpleDateFormat("MMM - yyyy", Locale.getDefault());
 
     private int dia = currentCalender.get(Calendar.DAY_OF_MONTH);
+    private int diaSemana = currentCalender.get(Calendar.DAY_OF_WEEK);
     private int mes = currentCalender.get(Calendar.MONTH) + 1;
     private int anno = currentCalender.get(Calendar.YEAR);
 
@@ -128,6 +131,7 @@ public class CalendarioActivity extends AppCompatActivity {
                 calendar.setTime(dateClicked);
 
                 dia = calendar.get(Calendar.DAY_OF_MONTH);
+                diaSemana = calendar.get(Calendar.DAY_OF_WEEK);
                 mes = calendar.get(Calendar.MONTH) + 1;
                 anno = calendar.get(Calendar.YEAR);
 
@@ -183,6 +187,53 @@ public class CalendarioActivity extends AppCompatActivity {
                     mutableEventos.add(evento.getMensaje() + " a las " + evento.getTime());
                     listViewEventos.add(evento);
                 }
+            } else {
+                String[] periodicidad = evento.getPeriodicidad().split(" ");
+                List<Integer> diasSemanaEvento = new ArrayList<>();
+
+                //realiza la conversión de la codificación de la base de datos (v.g: D) a la de
+                //correspondiente a la clase Calendar (v.g: Calendar.SUNDAY)
+                for (String s : periodicidad) {
+                    switch (s) {
+                        case LUNES:
+                            diasSemanaEvento.add(Calendar.MONDAY);
+                            break;
+                        case MARTES:
+                            diasSemanaEvento.add(Calendar.TUESDAY);
+                            break;
+                        case MIERCOLES:
+                            diasSemanaEvento.add(Calendar.WEDNESDAY);
+                            break;
+                        case JUEVES:
+                            diasSemanaEvento.add(Calendar.THURSDAY);
+                            break;
+                        case VIERNES:
+                            diasSemanaEvento.add(Calendar.FRIDAY);
+                            break;
+                        case SABADO:
+                            diasSemanaEvento.add(Calendar.SATURDAY);
+                            break;
+                        case DOMINGO:
+                            diasSemanaEvento.add(Calendar.SUNDAY);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                Calendar calendarClicked = Calendar.getInstance();
+                calendarClicked.set(anno, mes - 1, dia);
+                Date dateCliked = calendarClicked.getTime();
+
+                Date today = new Date();
+
+                for (Integer diaSemana : diasSemanaEvento) {
+                    if ((dateCliked.after(today) || dateCliked.equals(today))
+                            && (diaSemana == this.diaSemana)) {
+                        mutableEventos.add(evento.getMensaje() + " a las " + evento.getTime());
+                        listViewEventos.add(evento);
+                    }
+                }
             }
         }
 
@@ -227,7 +278,6 @@ public class CalendarioActivity extends AppCompatActivity {
         long miliseconds;
         for (Event event : eventos) {
             if ((miliseconds = toMiliseconds(event)) == EVENTO_PERIODICO) {
-                Log.e("IEEE", "EVENTO_PERIODICO");
                 anndirEventosPeriodicos(event);
             } else {
                 compactCalendarView.addEvent(new CalendarDayEvent(miliseconds, Color.argb(255, 169, 68, 65)), false);
@@ -303,14 +353,15 @@ public class CalendarioActivity extends AppCompatActivity {
             currentCalendar = Calendar.getInstance();
             currentCalendar.setTime(today);
 
-            // buscamos el siguiente que se repita. Por ejemplo, si estamos a jueves y el evento se
-            // repite un miércoles tendremos que buscar el miércoles más próximo
+            // buscamos el primer día en el que se repita el evento. Por ejemplo, si estamos a
+            // jueves y el evento se repite un miércoles tendremos que buscar el miércoles
+            // más próximo
             while (currentCalendar.get(Calendar.DAY_OF_WEEK) != diaSemana) {
                 // sumamos un día al calendario
                 currentCalendar.add(Calendar.DATE, 1);
             }
 
-            // una vez encontrado el día, pintamos el evento sumando una semana en cada iteración
+            // una vez encontrado el día, pintamos el evento cada semana en cada iteración
             // durante un año
             for (int i = 0; i < SEMANA_ANNO; i++, currentCalendar.add(Calendar.WEEK_OF_MONTH, 1)) {
                 compactCalendarView.addEvent(new CalendarDayEvent(currentCalendar.getTimeInMillis(),
