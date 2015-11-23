@@ -187,12 +187,17 @@ public class CreateEventActivity extends AppCompatActivity {
         } else {
             fecha = "";
         }
+
         String hora = mHoraText.getText().toString();
 
-        EventAdapter adaptadorEventos = new EventAdapter(Constants.CREATE_EVENT, null);
-        Event evento = new Event("", email, mensaje, fecha, hora, getPeriodicidad());
-        peticionAceptada = adaptadorEventos.enviarPeticionCrearEvento(evento);
-        return peticionAceptada;
+        if (hora.equals("") || mensaje.equals("")) {
+            return false;
+        } else {
+            EventAdapter adaptadorEventos = new EventAdapter(Constants.CREATE_EVENT, null);
+            Event evento = new Event("", email, mensaje, fecha, hora, getPeriodicidad());
+            peticionAceptada = adaptadorEventos.enviarPeticionCrearEvento(evento);
+            return peticionAceptada;
+        }
     }
 
     private void periodityHab() {
