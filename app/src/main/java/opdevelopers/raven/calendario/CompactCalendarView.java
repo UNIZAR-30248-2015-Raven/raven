@@ -107,19 +107,6 @@ public class CompactCalendarView extends View {
         compactCalendarController.showSmallIndicator(shouldDrawDaysHeader);
     }
 
-    /*
-    Sets the name for each day of the week. No attempt is made to adjust width or text size based on the length of each day name.
-    Works best with 3-4 characters for each day.
-     */
-    public void setDayColumnNames(String[] dayColumnNames){
-       compactCalendarController.setDayColumnNames(dayColumnNames);
-    }
-
-    public void setShouldShowMondayAsFirstDay(boolean shouldShowMondayAsFirstDay) {
-        compactCalendarController.setShouldShowMondayAsFirstDay(shouldShowMondayAsFirstDay);
-        invalidate();
-    }
-
     public void setCurrentSelectedDayBackgroundColor(int currentSelectedDayBackgroundColor) {
         compactCalendarController.setCurrentSelectedDayBackgroundColor(currentSelectedDayBackgroundColor);
         invalidate();
@@ -130,39 +117,12 @@ public class CompactCalendarView extends View {
         invalidate();
     }
 
-    public int getHeightPerDay(){
-        return compactCalendarController.getHeightPerDay();
-    }
-
     public void setListener(CompactCalendarViewListener listener){
         this.listener = listener;
     }
 
     public Date getFirstDayOfCurrentMonth(){
         return compactCalendarController.getFirstDayOfCurrentMonth();
-    }
-
-    public void setCurrentDate(Date dateTimeMonth){
-        compactCalendarController.setCurrentDate(dateTimeMonth);
-        invalidate();
-    }
-
-    public int getWeekNumberForCurrentMonth(){
-        return compactCalendarController.getWeekNumberForCurrentMonth();
-    }
-
-    public void setShouldDrawDaysHeader(boolean shouldDrawDaysHeader){
-        compactCalendarController.setShouldDrawDaysHeader(shouldDrawDaysHeader);
-    }
-
-    /**
-     * see {@link #addEvent(com.github.sundeepk.compactcalendarview.domain.CalendarDayEvent, boolean)} when adding single events
-     * or {@link #addEvents(List)}  when adding multiple events
-     * @param event
-     */
-    @Deprecated
-    public void addEvent(CalendarDayEvent event){
-        addEvent(event, false);
     }
 
     /**
@@ -176,14 +136,6 @@ public class CompactCalendarView extends View {
         if(shouldInvalidate){
             invalidate();
         }
-    }
-
-    /*
-    Adds multiple events to the calendar and invalidates the view once all events are added.
-      */
-    public void addEvents(List<CalendarDayEvent> events){
-       compactCalendarController.addEvents(events);
-       invalidate();
     }
 
 
@@ -211,31 +163,6 @@ public class CompactCalendarView extends View {
         }
     }
 
-    /*
-    Adds multiple events to the calendar and invalidates the view once all events are added.
-    */
-    public void removeEvents(List<CalendarDayEvent> events){
-        compactCalendarController.removeEvents(events);
-        invalidate();
-    }
-
-
-    public void showNextMonth(){
-        compactCalendarController.showNextMonth();
-        invalidate();
-        if(listener != null){
-             listener.onMonthScroll(compactCalendarController.getFirstDayOfCurrentMonth());
-        }
-    }
-
-    public void showPreviousMonth(){
-        compactCalendarController.showPreviousMonth();
-        invalidate();
-        if(listener != null){
-             listener.onMonthScroll(compactCalendarController.getFirstDayOfCurrentMonth());
-        }
-    }
-
     @Override
     protected void onMeasure(int parentWidth, int parentHeight) {
         super.onMeasure(parentWidth, parentHeight);
@@ -249,7 +176,6 @@ public class CompactCalendarView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         compactCalendarController.onDraw(canvas);
     }
 
@@ -259,10 +185,6 @@ public class CompactCalendarView extends View {
         if(compactCalendarController.computeScroll()){
             invalidate();
         }
-    }
-
-    public void shouldScrollMonth(boolean shouldDisableScroll){
-        this.shouldScroll = shouldDisableScroll;
     }
 
     public boolean onTouchEvent(MotionEvent event) {
@@ -275,5 +197,4 @@ public class CompactCalendarView extends View {
         }
         return gestureDetector.onTouchEvent(event);
     }
-
 }

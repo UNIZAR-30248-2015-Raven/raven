@@ -330,17 +330,6 @@ class CompactCalendarController {
         }
     }
 
-    List<CalendarDayEvent> getEvents(Date date) {
-        eventsCalendar.setTimeInMillis(date.getTime());
-        String key = getKeyForCalendarEvent(eventsCalendar);
-        List<CalendarDayEvent> uniqEvents = events.get(key);
-        if (events != null) {
-            return uniqEvents;
-        } else {
-            return new ArrayList<>();
-        }
-    }
-
     //E.g. 4 2016 becomes 2016_4
     private String getKeyForCalendarEvent(Calendar cal) {
         return cal.get(Calendar.YEAR) + "_" + cal.get(Calendar.MONTH);

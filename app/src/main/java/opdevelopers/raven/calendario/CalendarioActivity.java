@@ -1,5 +1,6 @@
 package opdevelopers.raven.calendario;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -118,6 +119,7 @@ public class CalendarioActivity extends AppCompatActivity {
         //set initial title
         actionBar.setTitle(dateFormatForMonth.format(compactCalendarView.getFirstDayOfCurrentMonth()));
 
+
         //obtener eventos del usuario y actualizar vista
         eventos = obetenerEventos();
         mostrarEventosEnVista();
@@ -188,46 +190,20 @@ public class CalendarioActivity extends AppCompatActivity {
                     listViewEventos.add(evento);
                 }
             } else {
-                String[] periodicidad = evento.getPeriodicidad().split(" ");
-                List<Integer> diasSemanaEvento = new ArrayList<>();
-
-                //realiza la conversión de la codificación de la base de datos (v.g: D) a la de
-                //correspondiente a la clase Calendar (v.g: Calendar.SUNDAY)
-                for (String s : periodicidad) {
-                    switch (s) {
-                        case LUNES:
-                            diasSemanaEvento.add(Calendar.MONDAY);
-                            break;
-                        case MARTES:
-                            diasSemanaEvento.add(Calendar.TUESDAY);
-                            break;
-                        case MIERCOLES:
-                            diasSemanaEvento.add(Calendar.WEDNESDAY);
-                            break;
-                        case JUEVES:
-                            diasSemanaEvento.add(Calendar.THURSDAY);
-                            break;
-                        case VIERNES:
-                            diasSemanaEvento.add(Calendar.FRIDAY);
-                            break;
-                        case SABADO:
-                            diasSemanaEvento.add(Calendar.SATURDAY);
-                            break;
-                        case DOMINGO:
-                            diasSemanaEvento.add(Calendar.SUNDAY);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
+                //fecha seleccionada en el calendario
                 Calendar calendarClicked = Calendar.getInstance();
                 calendarClicked.set(anno, mes - 1, dia);
                 Date dateCliked = calendarClicked.getTime();
 
+                //fecha actual
                 Date today = new Date();
 
+                ArrayList<Integer> diasSemanaEvento
+                        = (ArrayList<Integer>) transformarPeriodicidad(evento.getPeriodicidad());
+
                 for (Integer diaSemana : diasSemanaEvento) {
+                    //únicamente mostramos los eventos periódicos si el día pulsado es posterior
+                    //al día actual y si es el mismo día de la semana que el que contiene el evento
                     if ((dateCliked.after(today) || dateCliked.equals(today))
                             && (diaSemana == this.diaSemana)) {
                         mutableEventos.add(evento.getMensaje() + " a las " + evento.getTime());
@@ -312,11 +288,45 @@ public class CalendarioActivity extends AppCompatActivity {
      * @param evento a añadir
      */
     private void anndirEventosPeriodicos(Event evento) {
-        String[] periodicidad = evento.getPeriodicidad().split(" ");
+        ArrayList<Integer> diasSemanaEvento
+                = (ArrayList<Integer>) transformarPeriodicidad(evento.getPeriodicidad());
+
+        Calendar currentCalendar;
+        Date today = new Date();
+
+        // para cada uno de los días en los cuales se repite el evento
+        for (Integer diaSemana : diasSemanaEvento) {
+            currentCalendar = Calendar.getInstance();
+            currentCalendar.setTime(today);
+
+            // buscamos el primer día en el que se repita el evento. Por ejemplo, si estamos a
+            // jueves y el evento se repite un miércoles tendremos que buscar el miércoles
+            // más próximo
+            while (currentCalendar.get(Calendar.DAY_OF_WEEK) != diaSemana) {
+                // sumamos un día al calendario
+                currentCalendar.add(Calendar.DATE, 1);
+            }
+
+            // una vez encontrado el día, pintamos el evento cada semana en cada iteración
+            // durante un año
+            for (int i = 0; i < SEMANA_ANNO; i++, currentCalendar.add(Calendar.WEEK_OF_MONTH, 1)) {
+                compactCalendarView.addEvent(new CalendarDayEvent(currentCalendar.getTimeInMillis(),
+                        Color.argb(255, 169, 68, 65)), false);
+            }
+        }
+    }
+
+    /**
+     * Realiza la conversión de la codificación de la base de datos (p.ej: D) a la
+     * correspondiente a la clase Calendar (p.ej: Calendar.SUNDAY)
+     *
+     * @param periodicidadEvento a transformar
+     * @return lista con la periodicidad del evento
+     */
+    public List<Integer> transformarPeriodicidad(String periodicidadEvento) {
+        String[] periodicidad = periodicidadEvento.split(" ");
         List<Integer> diasSemanaEvento = new ArrayList<>();
 
-        // realiza la conversión de la codificación de la base de datos (v.g: D) a la de
-        // correspondiente a la clase Calendar (v.g: Calendar.SUNDAY)
         for (String s : periodicidad) {
             switch (s) {
                 case LUNES:
@@ -345,28 +355,6 @@ public class CalendarioActivity extends AppCompatActivity {
             }
         }
 
-        Calendar currentCalendar;
-        Date today = new Date();
-
-        // para cada uno de los días en los cuales se repite el evento
-        for (Integer diaSemana : diasSemanaEvento) {
-            currentCalendar = Calendar.getInstance();
-            currentCalendar.setTime(today);
-
-            // buscamos el primer día en el que se repita el evento. Por ejemplo, si estamos a
-            // jueves y el evento se repite un miércoles tendremos que buscar el miércoles
-            // más próximo
-            while (currentCalendar.get(Calendar.DAY_OF_WEEK) != diaSemana) {
-                // sumamos un día al calendario
-                currentCalendar.add(Calendar.DATE, 1);
-            }
-
-            // una vez encontrado el día, pintamos el evento cada semana en cada iteración
-            // durante un año
-            for (int i = 0; i < SEMANA_ANNO; i++, currentCalendar.add(Calendar.WEEK_OF_MONTH, 1)) {
-                compactCalendarView.addEvent(new CalendarDayEvent(currentCalendar.getTimeInMillis(),
-                        Color.argb(255, 169, 68, 65)), false);
-            }
-        }
+        return diasSemanaEvento;
     }
 }

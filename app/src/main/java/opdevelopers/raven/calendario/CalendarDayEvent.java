@@ -1,6 +1,5 @@
 package opdevelopers.raven.calendario;
 
-import opdevelopers.raven.Event;
 
 /**
  * Created by Daniel on 21/11/2015 based on https://github.com/SundeepK/CompactCalendarView
