@@ -179,25 +179,23 @@ public class CreateEventActivity extends AppCompatActivity {
      */
     public boolean guardarEvento() {
         boolean peticionAceptada = false;
-        String email = obtenerEmailUsuario();
-        String mensaje = mMensajeText.getText().toString();
-        String fecha;
-        if (mFechaText.isEnabled()) {
-            fecha = mFechaText.getText().toString();
-        } else {
-            fecha = "";
-        }
+        try {
+            String email = obtenerEmailUsuario();
+            String mensaje = mMensajeText.getText().toString();
+            String fecha = "";
+            if (mFechaText.isEnabled()) {
+                fecha = mFechaText.getText().toString();
+            }
+            String hora = mHoraText.getText().toString();
 
-        String hora = mHoraText.getText().toString();
-
-        if (hora.equals("") || mensaje.equals("")) {
-            return false;
-        } else {
             EventAdapter adaptadorEventos = new EventAdapter(Constants.CREATE_EVENT, null);
             Event evento = new Event("", email, mensaje, fecha, hora, getPeriodicidad());
             peticionAceptada = adaptadorEventos.enviarPeticionCrearEvento(evento);
-            return peticionAceptada;
         }
+        catch (ErrorException e) {
+            e.printStackTrace();
+        }
+        return peticionAceptada;
     }
 
     private void periodityHab() {

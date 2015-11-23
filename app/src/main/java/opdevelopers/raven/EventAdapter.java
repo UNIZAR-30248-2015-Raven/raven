@@ -82,6 +82,9 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        catch (ErrorException e) {
+            e.printStackTrace();
+        }
         return listaEventos;
     }
 

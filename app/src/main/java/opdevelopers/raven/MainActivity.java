@@ -1,6 +1,7 @@
 package opdevelopers.raven;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import opdevelopers.raven.calendario.CalendarioActivity;
 public class MainActivity extends AppCompatActivity {
     private static final int ACTIVITY_CALENDARIO = 1;
     private static final int ACTIVITY_CLIENTE = 1;
+    private static final String USUARIO = "CorreoUsuario";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logOut() {
+        SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
+        SharedPreferences.Editor editor = prefsCorreo.edit();
+        editor.clear();
         Intent i = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(i);
         finish();

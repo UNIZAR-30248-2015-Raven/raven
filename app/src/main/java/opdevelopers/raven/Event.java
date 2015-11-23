@@ -12,13 +12,44 @@ public class Event {
     private String time;
     private String periodicidad;
 
-    public Event(String id, String email, String mensaje, String date, String time, String periodicidad) {
-        this.id = id;
-        this.email = email;
-        this.mensaje = mensaje;
-        this.date = date;
-        this.time = time;
-        this.periodicidad = periodicidad;
+    public Event(String id, String email, String mensaje, String date, String time, String periodicidad)
+            throws ErrorException {
+        if (id == null) {
+            throw new ErrorException();
+        }
+        else {
+            this.id = id;
+        }
+        if (email == null || email.equals("") || !email.contains("@") || !email.contains(".")) {
+            throw new ErrorException();
+        }
+        else {
+            this.email = email;
+        }
+        if (mensaje == null || mensaje.equals("")) {
+            throw new ErrorException();
+        }
+        else {
+            this.mensaje = mensaje;
+        }
+        if (date == null || periodicidad == null) {
+            throw new ErrorException();
+        }
+        else {
+            if ((date.equals("") && periodicidad.equals("")) || (!date.equals("") && !periodicidad.equals(""))) {
+                throw new ErrorException();
+            }
+            else {
+                this.date = date;
+                this.periodicidad = periodicidad;
+            }
+        }
+        if (time == null || time.equals("") || !time.contains(":")) {
+            throw new ErrorException();
+        }
+        else {
+            this.time = time;
+        }
     }
 
     public String getId() {
