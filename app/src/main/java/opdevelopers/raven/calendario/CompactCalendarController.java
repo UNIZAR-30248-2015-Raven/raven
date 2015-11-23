@@ -141,15 +141,6 @@ class CompactCalendarController {
         calendarWithFirstDayOfMonth.set(Calendar.MILLISECOND, 0);
     }
 
-    void setShouldShowMondayAsFirstDay(boolean shouldShowMondayAsFirstDay) {
-        this.shouldShowMondayAsFirstDay = shouldShowMondayAsFirstDay;
-        setUseWeekDayAbbreviation(useThreeLetterAbbreviation);
-        if (shouldShowMondayAsFirstDay) {
-            eventsCalendar.setFirstDayOfWeek(Calendar.MONDAY);
-        } else {
-            eventsCalendar.setFirstDayOfWeek(Calendar.SUNDAY);
-        }
-    }
 
     void setCurrentSelectedDayBackgroundColor(int currentSelectedDayBackgroundColor) {
         this.currentSelectedDayBackgroundColor = currentSelectedDayBackgroundColor;
@@ -157,16 +148,6 @@ class CompactCalendarController {
 
     void setCurrentDayBackgroundColor(int currentDayBackgroundColor) {
         this.currentDayBackgroundColor = currentDayBackgroundColor;
-    }
-
-    void showNextMonth() {
-        setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentCalender.getTime(), 0, 1);
-        setCurrentDate(calendarWithFirstDayOfMonth.getTime());
-    }
-
-    void showPreviousMonth() {
-        setCalenderToFirstDayOfMonth(calendarWithFirstDayOfMonth, currentCalender.getTime(), 0, -1);
-        setCurrentDate(calendarWithFirstDayOfMonth.getTime());
     }
 
     void setLocale(Locale locale) {
@@ -203,18 +184,6 @@ class CompactCalendarController {
                         dayNames[4].substring(0, 1), dayNames[5].substring(0, 1), dayNames[6].substring(0, 1), dayNames[7].substring(0, 1), dayNames[1].substring(0, 1)};
             }
         }
-    }
-
-    void setDayColumnNames(String[] dayColumnNames) {
-        if (dayColumnNames == null || dayColumnNames.length != 7) {
-            throw new IllegalArgumentException("Column names cannot be null and must contain a value for each day of the week");
-        }
-        this.dayColumnNames = dayColumnNames;
-    }
-
-
-    void setShouldDrawDaysHeader(boolean shouldDrawDaysHeader) {
-        this.shouldDrawDaysHeader = shouldDrawDaysHeader;
     }
 
     void showSmallIndicator(boolean showSmallIndicator) {
@@ -260,15 +229,6 @@ class CompactCalendarController {
         return false;
     }
 
-    int getHeightPerDay() {
-        return heightPerDay;
-    }
-
-    int getWeekNumberForCurrentMonth() {
-        Calendar calendar = Calendar.getInstance(locale);
-        calendar.setTime(currentDate);
-        return calendar.get(Calendar.WEEK_OF_MONTH);
-    }
 
     Date getFirstDayOfCurrentMonth() {
         Calendar calendar = Calendar.getInstance(locale);
@@ -277,14 +237,6 @@ class CompactCalendarController {
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         setToMidnight(calendar);
         return calendar.getTime();
-    }
-
-    void setCurrentDate(Date dateTimeMonth) {
-        currentDate = new Date(dateTimeMonth.getTime());
-        currentCalender.setTime(currentDate);
-        setToMidnight(currentCalender);
-        monthsScrolledSoFar = 0;
-        accumulatedScrollOffset.x = 0;
     }
 
     private void setToMidnight(Calendar calendar) {
@@ -307,13 +259,6 @@ class CompactCalendarController {
         events.put(key, uniqCalendarDayEvents);
     }
 
-    void addEvents(List<CalendarDayEvent> events) {
-        int count = events.size();
-        for (int i = 0; i < count; i++) {
-            addEvent(events.get(i));
-        }
-    }
-
     void removeEvent(CalendarDayEvent event) {
         eventsCalendar.setTimeInMillis(event.getTimeInMillis());
         String key = getKeyForCalendarEvent(eventsCalendar);
@@ -323,12 +268,6 @@ class CompactCalendarController {
         }
     }
 
-    void removeEvents(List<CalendarDayEvent> events) {
-        int count = events.size();
-        for (int i = 0; i < count; i++) {
-            removeEvent(events.get(i));
-        }
-    }
 
     //E.g. 4 2016 becomes 2016_4
     private String getKeyForCalendarEvent(Calendar cal) {
@@ -542,5 +481,4 @@ class CompactCalendarController {
         dayPaint.setStyle(Paint.Style.STROKE);
         dayPaint.setColor(calenderTextColor);
     }
-
 }

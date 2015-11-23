@@ -20,7 +20,6 @@ import java.util.Locale;
  * Created by Daniel on 21/11/2015 based on https://github.com/SundeepK/CompactCalendarView
  */
 public class CompactCalendarView extends View {
-
     private CompactCalendarController compactCalendarController;
     private GestureDetectorCompat gestureDetector;
     private CompactCalendarViewListener listener;
@@ -136,17 +135,6 @@ public class CompactCalendarView extends View {
         if(shouldInvalidate){
             invalidate();
         }
-    }
-
-
-    /**
-     * see {@link #removeEvent(com.github.sundeepk.compactcalendarview.domain.CalendarDayEvent, boolean)} when removing single events
-     * or {@link #removeEvents(List)} (java.util.List)}  when removing multiple events
-     * @param event
-     */
-    @Deprecated
-    public void removeEvent(CalendarDayEvent event){
-        removeEvent(event, false);
     }
 
     /**
