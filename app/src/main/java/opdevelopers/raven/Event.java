@@ -144,9 +144,4 @@ public class Event {
         cadena += "periodicidad -> " + this.periodicidad + "\n\n";
         return cadena;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
 }
