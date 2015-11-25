@@ -382,14 +382,14 @@ public class UserTest {
     public void testSetAnyoPositivo() throws ErrorException {
         User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", "976543210",
                 "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
-        usuario.setAnyoNacimiento("-1994");
+        usuario.setAnyoNacimiento("-194");
     }
 
     @Test(expected=ErrorException.class)
     public void testSetAnyoEntero() throws ErrorException {
         User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", "976543210",
                 "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
-        usuario.setAnyoNacimiento("Dos mil quince");
+        usuario.setAnyoNacimiento("Doce");
     }
 
     @Test(expected=ErrorException.class)
@@ -480,14 +480,14 @@ public class UserTest {
     public void testSetApellidoContactoNull() throws ErrorException {
         User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", "976543210",
                 "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
-        usuario.setApellido(null);
+        usuario.setApellidoContacto(null);
     }
 
     @Test(expected=ErrorException.class)
     public void testSetApellidoContactoVacio() throws ErrorException {
         User usuario = new User("Nombre", "Apellido", "correo@example.com", "1994", "976543210",
                 "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
-        usuario.setApellido("");
+        usuario.setApellidoContacto("");
     }
 
     @Test(expected=ErrorException.class)
