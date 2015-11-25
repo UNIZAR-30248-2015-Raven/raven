@@ -188,7 +188,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
             String hora = mHoraText.getText().toString();
 
-            EventAdapter adaptadorEventos = new EventAdapter(Constants.CREATE_EVENT, null);
+            EventAdapter adaptadorEventos = new EventAdapter(Constants.CREATE_EVENT);
             Event evento = new Event("", email, mensaje, fecha, hora, getPeriodicidad());
             peticionAceptada = adaptadorEventos.enviarPeticionCrearEvento(evento);
         }
