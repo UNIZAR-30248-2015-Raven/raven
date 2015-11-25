@@ -93,7 +93,7 @@ public class EventTest {
     @Test
     public void testEventoCorrecto2() throws ErrorException {
         Event evento = new Event("", "correo@example.com", "Texto", "", "11:00", "L M X J V S D");
-        Event prueba = new Event("", "prueba@test.com", "Mensaje", "1994-12-12", "22:00", "");
+        Event prueba = new Event("", "prueba@test.com", "Mensaje", "", "22:00", "L M X");
         prueba.setEmail("correo@example.com");
         prueba.setMensaje("Texto");
         prueba.setTime("11:00");
