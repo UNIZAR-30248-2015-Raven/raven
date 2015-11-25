@@ -10,11 +10,15 @@ android:
 
 before_install:
  - chmod +x gradlew
- - pip install --user codecov
 
 script:
  - ./gradlew build check
+ - ./gradlew build jacocoTestReport
+
 
 after_success:
  - ./gradlew uploadArchives
- - codecov
+ - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  email: false
