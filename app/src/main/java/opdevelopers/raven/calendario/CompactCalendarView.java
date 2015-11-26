@@ -77,7 +77,7 @@ public class CompactCalendarView extends View {
     public CompactCalendarView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         compactCalendarController = new CompactCalendarController(new Paint(), new OverScroller(getContext()),
-                new Rect(), attrs, getContext(),  Color.argb(255, 233, 84, 81), Color.argb(255, 64, 64, 64), Color.argb(255, 219, 219, 219));
+                new Rect(), attrs, getContext(),  Color.argb(255, 100, 181, 246), Color.argb(255, 0, 0, 0), Color.argb(255, 144, 202, 249));
         gestureDetector = new GestureDetectorCompat(getContext(), gestureListener);
     }
 
@@ -126,7 +126,7 @@ public class CompactCalendarView extends View {
 
     /**
      *  Adds an event to be drawn as an indicator in the calendar.
-     *  If adding multiple events see {@link #addEvents(List)}} method.
+     *  If adding multiple events see {#addEvents(List)}} method.
      * @param event to be added to the calendar
      * @param shouldInvalidate true if the view should invalidate
      */
@@ -139,7 +139,7 @@ public class CompactCalendarView extends View {
 
     /**
      * Removes an event from the calendar.
-     * If removing multiple events see {@link #removeEvents(List)}
+     * If removing multiple events see {#removeEvents(List)}
      *
      * @param event event to remove from the calendar
      * @param shouldInvalidate true if the view should invalidate

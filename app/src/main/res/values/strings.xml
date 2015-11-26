@@ -5,7 +5,6 @@
     <string name="ver_cuenta">Ver cuenta</string>
     <string name="menu">Menú</string>
     <string name="calendario">Calendario</string>
-    <string name="crear_evento">Crear evento</string>
 
     <string name="info">TU INFORMACIÓN</string>
     <string name="infoContacto">INFORMACIÓN DE CONTACTO AUXILIAR</string>
@@ -39,6 +38,7 @@
 
     <string name="seguir">SEGUIR</string>
     <string name="aceptar">ACEPTAR</string>
+    <string name="crear_evento">CREAR EVENTO</string>
     <string name="iniciar_sesion">INICIAR SESIÓN</string>
     <string name="registrar">REGISTRARSE</string>
 </resources>

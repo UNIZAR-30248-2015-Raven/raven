@@ -110,10 +110,6 @@ public class CalendarioActivity extends AppCompatActivity {
 
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
-        //color primario
-        compactCalendarView.setCurrentDayBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        compactCalendarView.setCurrentSelectedDayBackgroundColor(getResources().getColor(R.color.colorPrimary));
-
         compactCalendarView.invalidate();
 
         //set initial title
@@ -256,7 +252,7 @@ public class CalendarioActivity extends AppCompatActivity {
             if ((miliseconds = toMiliseconds(event)) == EVENTO_PERIODICO) {
                 anndirEventosPeriodicos(event);
             } else {
-                compactCalendarView.addEvent(new CalendarDayEvent(miliseconds, Color.argb(255, 169, 68, 65)), false);
+                compactCalendarView.addEvent(new CalendarDayEvent(miliseconds, Color.argb(255, 100, 181, 246)), false);
             }
         }
     }
@@ -311,7 +307,7 @@ public class CalendarioActivity extends AppCompatActivity {
             // durante un año
             for (int i = 0; i < SEMANA_ANNO; i++, currentCalendar.add(Calendar.WEEK_OF_MONTH, 1)) {
                 compactCalendarView.addEvent(new CalendarDayEvent(currentCalendar.getTimeInMillis(),
-                        Color.argb(255, 169, 68, 65)), false);
+                        Color.argb(255, 100, 181, 246)), false);
             }
         }
     }
