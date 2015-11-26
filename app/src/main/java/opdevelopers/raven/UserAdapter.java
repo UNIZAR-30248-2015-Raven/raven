@@ -30,6 +30,7 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
     HashMap<String, String> postDataParams = null;
     int responseCode = -1;
     StringBuilder result = new StringBuilder();
+    public boolean TEST = false;
 
     public UserAdapter (int typeRequest, boolean nuevoUsuario, String... getParams) {
         try {
@@ -132,9 +133,10 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
         try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-
+            if (!TEST) {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+            }
             // Conexión con la BBDD
             conn.connect();
 
@@ -150,25 +152,6 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
         }
         catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (NullPointerException e){
-            //Testing
-            try {
-                conn.connect();
-
-                OutputStream os = conn.getOutputStream();
-
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-                writer.write(getPostDataString(postDataParams));
-
-                writer.flush();
-                writer.close();
-                os.close();
-                responseCode = conn.getResponseCode();
-            }
-            catch(IOException e1){
-                e1.printStackTrace();
-            }
         }
         return null;
     }
