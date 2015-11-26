@@ -151,6 +151,25 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
         catch (IOException e) {
             e.printStackTrace();
         }
+        catch (NullPointerException e){
+            //Testing
+            try {
+                conn.connect();
+
+                OutputStream os = conn.getOutputStream();
+
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                writer.write(getPostDataString(postDataParams));
+
+                writer.flush();
+                writer.close();
+                os.close();
+                responseCode = conn.getResponseCode();
+            }
+            catch(IOException e1){
+                e1.printStackTrace();
+            }
+        }
         return null;
     }
 

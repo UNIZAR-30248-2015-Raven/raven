@@ -22,6 +22,9 @@ android {
         free {}
         paid {}
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
