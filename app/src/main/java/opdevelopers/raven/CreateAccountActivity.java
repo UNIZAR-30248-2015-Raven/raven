@@ -72,7 +72,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         else {
             botonAceptar.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    boolean registrado = registrarUsuario();
+                    boolean registrado = registrarUsuario(crearUsuario());
                     if (registrado) {
                         actualizarPrefsUsuario();
                         Toast.makeText(getApplicationContext(), R.string.exito_datos,
@@ -102,12 +102,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         return email;
     }
 
-    /*
-     * Envía una petición http con los datos introducidos por el usuario para registrarlos en la
-     * base de datos del servidor.
-     */
-    private boolean registrarUsuario() {
-        boolean peticionAceptada = false;
+    private User crearUsuario() {
+        User usuario = null;
         try {
             String nombre = mNombreText.getText().toString();
             String apellido = mApellidoText.getText().toString();
@@ -121,14 +117,23 @@ public class CreateAccountActivity extends AppCompatActivity {
             String apellidoContacto = mApellidoContactoText.getText().toString();
             String telefonoContacto = mTelefonoContactoText.getText().toString();
 
-            UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, true);
-            User usuario = new User(nombre, apellido, email, anyoNacimiento, telefono, infoMedica,
+            usuario = new User(nombre, apellido, email, anyoNacimiento, telefono, infoMedica,
                     residencia, contrasenya, nombreContacto, apellidoContacto, telefonoContacto);
-            peticionAceptada = adaptadorUsuarios.enviarPeticionRegistrar(usuario);
         }
         catch (ErrorException e) {
             e.printStackTrace();
         }
+        return usuario;
+    }
+
+    /*
+     * Envía una petición http con los datos introducidos por el usuario para registrarlos en la
+     * base de datos del servidor.
+     */
+    public boolean registrarUsuario(User usuario) {
+        boolean peticionAceptada = false;
+        UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, true);
+        peticionAceptada = adaptadorUsuarios.enviarPeticionRegistrar(usuario);
         return peticionAceptada;
     }
 

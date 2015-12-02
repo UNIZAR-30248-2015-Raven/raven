@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
         botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                boolean comprobado = comprobarUsuario();
+                boolean comprobado = comprobarUsuario(crearUsuario());
                 if (comprobado) {
                     actualizarPrefsUsuario();
                     Toast.makeText(getApplicationContext(), R.string.exito_sesion,
@@ -75,25 +75,29 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
+    private User crearUsuario() {
+        User usuario = null;
+        try {
+            email = mEmailText.getText().toString();
+            String contrasenya = mContrasenyaText.getText().toString();
+
+            usuario = new User(email, contrasenya);
+        }
+        catch (ErrorException e) {
+            e.printStackTrace();
+        }
+        return usuario;
+    }
+
     /*
      * Envía una petición http con los datos introducidos por el usuario para comprobar en la
      * base de datos del servidor que el usuario está registrado y, en caso afirmativo, verificar
      * que el email y la contraseña son correctos.
      */
-    public boolean comprobarUsuario() {
+    public boolean comprobarUsuario(User usuario) {
         boolean sesionAceptada = false;
-        try {
-            email = mEmailText.getText().toString();
-            String contrasenya = mContrasenyaText.getText().toString();
-
-            UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, false);
-            User usuario = new User(email, contrasenya);
-
-            sesionAceptada = adaptadorUsuarios.enviarPeticionSesion(usuario);
-        }
-        catch (ErrorException e) {
-            e.printStackTrace();
-        }
+        UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, false);
+        sesionAceptada = adaptadorUsuarios.enviarPeticionSesion(usuario);
         return sesionAceptada;
     }
 

@@ -172,4 +172,7 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
         }
         return result.toString();
     }
+
+    public void onPostExecute() {
+    }
 }
