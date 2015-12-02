@@ -30,7 +30,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
             @Override
             public void run() {
                 try {
-                    User usuario = new User("Nombre", "Apellido", "email@example.com", "1994", "976543210",
+                    User usuario = new User("Nombre", "Apellido", "emailprueba@example.com", "1994", "976543210",
                             "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
                     peticionUsuarioAceptada1[0] = adaptadorUsuarios1.enviarPeticionRegistrar(usuario);
 
@@ -57,7 +57,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
             @Override
             public void run() {
                 try {
-                    User usuario = new User("email@example.com", "prueba");
+                    User usuario = new User("emailprueba@example.com", "prueba");
                     peticionUsuarioAceptada2[0] = adaptadorUsuarios2.enviarPeticionSesion(usuario);
                 } catch (ErrorException e) {
                     e.printStackTrace();
@@ -67,7 +67,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
 
         signalUser2.await(30, TimeUnit.SECONDS);
 
-        assertEquals(peticionUsuarioAceptada1[0], false);
+        assertEquals(peticionUsuarioAceptada1[0], true);
         assertEquals(peticionUsuarioAceptada2[0], true);
     }
 }
