@@ -5,10 +5,10 @@ import com.robotium.solo.*;
 import android.test.ActivityInstrumentationTestCase2;
 
 
-public class Reg extends ActivityInstrumentationTestCase2<LoginActivity> {
+public class LoginCreateEvent extends ActivityInstrumentationTestCase2<LoginActivity> {
   	private Solo solo;
   	
-  	public Reg() {
+  	public LoginCreateEvent() {
 		super(LoginActivity.class);
   	}
 
