@@ -2,7 +2,7 @@ language: android
 jdk: oraclejdk8
 env:
   global:
-   - ADB_INSTALL_TIMEOUT=10
+   - ADB_INSTALL_TIMEOUT=15
 
 android:
   components:
