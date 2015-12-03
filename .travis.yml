@@ -32,7 +32,7 @@ before_script:
   - android-wait-for-emulator
 
 script:
- - ./gradlew connectedCheck
+ - ./gradlew connectedCheck -PdisablePreDex
  - ./gradlew build check
  - ./gradlew build jacocoTestReport
 
