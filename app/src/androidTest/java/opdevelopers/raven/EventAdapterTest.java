@@ -31,7 +31,7 @@ public class EventAdapterTest extends InstrumentationTestCase {
             @Override
             public void run() {
                 try {
-                    User usuario = new User("Nombre", "Apellido", "ejemplo2@example.com", "1994", "976979797",
+                    User usuario = new User("Nombre", "Apellido", "ejemplo123@example.com", "1994", "976313131",
                             "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
                     peticionUsuarioAceptada = adaptadorUsuarios.enviarPeticionRegistrar(usuario);
 
@@ -58,7 +58,7 @@ public class EventAdapterTest extends InstrumentationTestCase {
             @Override
             public void run() {
                 try {
-                    Event evento = new Event("", "ejemplo2@example.com", "Texto", "2015-01-01", "11:00", "");
+                    Event evento = new Event("", "ejemplo123@example.com", "Texto", "2015-01-01", "11:00", "");
                     peticionEventoAceptada = adaptadorEventos.enviarPeticionCrearEvento(evento);
                 } catch (ErrorException e) {
                     e.printStackTrace();
