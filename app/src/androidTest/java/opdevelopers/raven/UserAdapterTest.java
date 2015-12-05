@@ -10,11 +10,13 @@ import java.util.concurrent.TimeUnit;
  */
 public class UserAdapterTest extends InstrumentationTestCase {
 
+    public static boolean peticionUsuarioAceptada1 = false;
+    public static boolean peticionUsuarioAceptada2 = false;
+
     public void testUserAdapterLogin() throws Throwable {
         final CountDownLatch signalUser1 = new CountDownLatch(1);
         final CountDownLatch signalUser2 = new CountDownLatch(1);
-        final boolean[] peticionUsuarioAceptada1 = {true};
-        final boolean[] peticionUsuarioAceptada2 = {true};
+
 
         final UserAdapter adaptadorUsuarios1 = new UserAdapter(Constants.CREATE_USER, true) {
 
@@ -30,18 +32,16 @@ public class UserAdapterTest extends InstrumentationTestCase {
             @Override
             public void run() {
                 try {
-                    User usuario = new User("Nombre", "Apellido", "emailprueba@example.com", "1994", "976543210",
+                    User usuario = new User("Nombre", "Apellido", "ejemplo1@example.com", "1994", "976797979",
                             "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
-                    peticionUsuarioAceptada1[0] = adaptadorUsuarios1.enviarPeticionRegistrar(usuario);
-
-                }
-                catch (ErrorException e) {
+                    UserAdapterTest.peticionUsuarioAceptada1 = adaptadorUsuarios1.enviarPeticionRegistrar(usuario);
+                } catch (ErrorException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        signalUser1.await(30, TimeUnit.SECONDS);
+        signalUser1.await(35, TimeUnit.SECONDS);
 
         final UserAdapter adaptadorUsuarios2 = new UserAdapter(Constants.CREATE_USER, false) {
 
@@ -57,17 +57,17 @@ public class UserAdapterTest extends InstrumentationTestCase {
             @Override
             public void run() {
                 try {
-                    User usuario = new User("emailprueba@example.com", "prueba");
-                    peticionUsuarioAceptada2[0] = adaptadorUsuarios2.enviarPeticionSesion(usuario);
+                    User usuario = new User("ejemplo1@example.com", "prueba");
+                    UserAdapterTest.peticionUsuarioAceptada2 = adaptadorUsuarios2.enviarPeticionSesion(usuario);
                 } catch (ErrorException e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        signalUser2.await(30, TimeUnit.SECONDS);
+        signalUser2.await(35, TimeUnit.SECONDS);
 
-        assertEquals(peticionUsuarioAceptada1[0], true);
-        assertEquals(peticionUsuarioAceptada2[0], true);
+        assertTrue(peticionUsuarioAceptada1);
+        assertTrue(peticionUsuarioAceptada2);
     }
 }

@@ -37,15 +37,14 @@ public class LoginActivity extends AppCompatActivity {
 
         botonIniciarSesion.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                boolean comprobado = comprobarUsuario(crearUsuario());
+                boolean comprobado = comprobarUsuario();
                 if (comprobado) {
                     actualizarPrefsUsuario();
                     Toast.makeText(getApplicationContext(), R.string.exito_sesion,
                             Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                     LoginActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
-                }
-                else {
+                } else {
                     Toast.makeText(getApplicationContext(), R.string.error_datos,
                             Toast.LENGTH_SHORT).show();
                 }
@@ -75,29 +74,23 @@ public class LoginActivity extends AppCompatActivity {
         editor.commit();
     }
 
-    private User crearUsuario() {
-        User usuario = null;
-        try {
-            email = mEmailText.getText().toString();
-            String contrasenya = mContrasenyaText.getText().toString();
-
-            usuario = new User(email, contrasenya);
-        }
-        catch (ErrorException e) {
-            e.printStackTrace();
-        }
-        return usuario;
-    }
-
     /*
      * Envía una petición http con los datos introducidos por el usuario para comprobar en la
      * base de datos del servidor que el usuario está registrado y, en caso afirmativo, verificar
      * que el email y la contraseña son correctos.
      */
-    public boolean comprobarUsuario(User usuario) {
+    public boolean comprobarUsuario() {
         boolean sesionAceptada = false;
-        UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, false);
-        sesionAceptada = adaptadorUsuarios.enviarPeticionSesion(usuario);
+        try {
+            email = mEmailText.getText().toString();
+            String contrasenya = mContrasenyaText.getText().toString();
+
+            UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, false);
+            User usuario = new User(email, contrasenya);
+            sesionAceptada = adaptadorUsuarios.enviarPeticionSesion(usuario);
+        } catch (ErrorException e) {
+            e.printStackTrace();
+        }
         return sesionAceptada;
     }
 
