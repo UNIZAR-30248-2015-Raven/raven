@@ -48,9 +48,17 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
                     break;
-                case Constants.FETCH_USER:
-                    URL url2 = url2 = new URL("http://raven-sirbargus.rhcloud.com/findUser/" + getParams[0]);
+                case Constants.MODIFY_USER:
+                    URL url2 = new URL("http://raven-sirbargus.rhcloud.com/modifyUser/" + getParams[0]);
                     conn = (HttpURLConnection) url2.openConnection();
+                    conn.setReadTimeout(15000);
+                    conn.setConnectTimeout(15000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    break;
+                case Constants.FETCH_USER:
+                    URL url3 = new URL("http://raven-sirbargus.rhcloud.com/findUser/" + getParams[0]);
+                    conn = (HttpURLConnection) url3.openConnection();
                     conn.setReadTimeout(15000);
                     conn.setConnectTimeout(15000);
                     conn.setRequestMethod("GET");

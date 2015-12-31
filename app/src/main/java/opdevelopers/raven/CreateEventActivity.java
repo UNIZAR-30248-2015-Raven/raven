@@ -17,10 +17,6 @@ import android.widget.Toast;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
-
-import opdevelopers.raven.calendario.CalendarioActivity;
 
 /**
  * Created by Eduardo on 18/11/2015.
@@ -44,8 +40,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
@@ -54,7 +48,7 @@ public class CreateEventActivity extends AppCompatActivity {
         int anno = intent.getIntExtra("anno", 0);
 
         setContentView(R.layout.activity_create_event);
-        setTitle(R.string.crear_evento);
+        setTitle(R.string.crear_evento_label);
 
         mMensajeText = (EditText) findViewById(R.id.mensaje);
         mFechaText = (EditText) findViewById(R.id.date);
@@ -146,10 +140,6 @@ public class CreateEventActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     finish();
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), R.string.error_datos,
-                            Toast.LENGTH_SHORT).show();
-                }
             }
 
         });
@@ -173,6 +163,7 @@ public class CreateEventActivity extends AppCompatActivity {
         if (domingo) periodicidad += "D";
         return periodicidad.trim(); // quita espacios al principio y al final de la cadena
     }
+
     /*
      * Envía una petición http con los datos introducidos por el usuario para guardarlos en la
      * base de datos del servidor.
@@ -180,16 +171,33 @@ public class CreateEventActivity extends AppCompatActivity {
     public boolean guardarEvento() {
         boolean peticionAceptada = false;
         try {
+            String error = "";
+            String errorFechaPeriodicidad = "";
             String email = obtenerEmailUsuario();
             String mensaje = mMensajeText.getText().toString();
+            if (mensaje == null || mensaje.equals("")) {
+                error += "Mensaje, ";
+            }
             String fecha = "";
             if (mFechaText.isEnabled()) {
                 fecha = mFechaText.getText().toString();
             }
             String hora = mHoraText.getText().toString();
+            if (hora == null || hora.equals("") || !hora.contains(":")) {
+                error += "Hora, ";
+            }
+            String periodicidad = getPeriodicidad();
+            if ((fecha.equals("") && periodicidad.equals("")) || (!fecha.equals("") && !periodicidad.equals(""))) {
+                errorFechaPeriodicidad += "Falta por seleccionar fecha o periodicidad";
+            }
+
+            if (error.length() > 0) {
+                String advertencia = "Error en el campo: " + error.substring(0, error.length()-2) + ".";
+                Toast.makeText(getApplicationContext(), advertencia + errorFechaPeriodicidad, Toast.LENGTH_SHORT).show();
+            }
 
             EventAdapter adaptadorEventos = new EventAdapter(Constants.CREATE_EVENT);
-            Event evento = new Event("", email, mensaje, fecha, hora, getPeriodicidad());
+            Event evento = new Event("", email, mensaje, fecha, hora, periodicidad);
             peticionAceptada = adaptadorEventos.enviarPeticionCrearEvento(evento);
         }
         catch (ErrorException e) {

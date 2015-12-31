@@ -3,6 +3,8 @@
 
     <string name="registrarse">Registrarse</string>
     <string name="ver_cuenta">Ver cuenta</string>
+    <string name="crear_evento_label">Crear evento</string>
+    <string name="ver_evento">Ver evento</string>
     <string name="menu">Menú</string>
     <string name="calendario">Calendario</string>
 
@@ -33,7 +35,9 @@
     <string name="cuenta_usuario">Cuenta de usuario</string>
 
     <string name="error_datos">Datos introducidos erróneamente</string>
+    <string name="error_email_tlf">Email o teléfono ya utilizado</string>
     <string name="exito_datos">Datos introducidos correctamente</string>
+    <string name="exito_actualizacion">Datos actualizados correctamente</string>
     <string name="exito_sesion">Bienvenido</string>
 
     <string name="seguir">SEGUIR</string>

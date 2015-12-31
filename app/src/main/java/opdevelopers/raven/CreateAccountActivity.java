@@ -64,23 +64,33 @@ public class CreateAccountActivity extends AppCompatActivity {
 
             botonAceptar.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    Intent i = new Intent(CreateAccountActivity.this, MainActivity.class);
-                    CreateAccountActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
+                    boolean actualizado = registrarUsuario(true);
+                    if (actualizado) {
+                        Toast.makeText(getApplicationContext(), R.string.exito_actualizacion,
+                                Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(CreateAccountActivity.this, MainActivity.class);
+                        CreateAccountActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), R.string.error_email_tlf,
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
         else {
             botonAceptar.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                    boolean registrado = registrarUsuario();
+                    boolean registrado = registrarUsuario(false);
                     if (registrado) {
                         actualizarPrefsUsuario();
                         Toast.makeText(getApplicationContext(), R.string.exito_datos,
                                 Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(CreateAccountActivity.this, MainActivity.class);
                         CreateAccountActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
-                    } else {
-                        Toast.makeText(getApplicationContext(), R.string.error_datos,
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), R.string.error_email_tlf,
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -106,22 +116,100 @@ public class CreateAccountActivity extends AppCompatActivity {
      * Envía una petición http con los datos introducidos por el usuario para registrarlos en la
      * base de datos del servidor.
      */
-    public boolean registrarUsuario() {
+    public boolean registrarUsuario(boolean modificacion) {
         boolean peticionAceptada = false;
+        String error = "";
         try {
             String nombre = mNombreText.getText().toString();
+            if (nombre == null || nombre.equals("")) {
+                error += "Nombre, ";
+            }
             String apellido = mApellidoText.getText().toString();
+            if (apellido == null || apellido.equals("")) {
+                error += "Apellido, ";
+            }
             email = mEmailText.getText().toString();
+            if (email == null || email.equals("") || !email.contains("@") || !email.contains(".")) {
+                error += "Email, ";
+            }
             String anyoNacimiento = mAnyoNacimientoText.getText().toString();
+            if (anyoNacimiento == null || anyoNacimiento.equals("") || anyoNacimiento.length() != 4) {
+                error += "Año de nacimiento, ";
+            }
+            else {
+                try {
+                    int anyo = Integer.parseInt(anyoNacimiento);
+                    if (anyo < 0) {
+                        error += "Año de nacimiento, ";
+                    }
+                }
+                catch (NumberFormatException e) {
+                    throw new ErrorException();
+                }
+            }
             String telefono = mTelefonoText.getText().toString();
+            if (telefono == null || telefono.equals("")) {
+                error += "Teléfono, ";
+            }
+            else {
+                try {
+                    int tlf = Integer.parseInt(telefono);
+                    if (tlf < 0) {
+                        error += "Teléfono, ";
+                    }
+                } catch (NumberFormatException e) {
+                    throw new ErrorException();
+                }
+            }
             String infoMedica = mInfoMedicaText.getText().toString();
+            if (infoMedica == null || infoMedica.equals("")) {
+                error += "Información médica, ";
+            }
             String residencia = mResidenciaText.getText().toString();
+            if (residencia == null || residencia.equals("")) {
+                error += "Lugar de residencia, ";
+            }
             String contrasenya = mContrasenyaText.getText().toString();
+            if (contrasenya == null || contrasenya.equals("")) {
+                error += "Contraseña, ";
+            }
             String nombreContacto = mNombreContactoText.getText().toString();
+            if (nombreContacto == null || nombreContacto.equals("")) {
+                error += "Nombre del contacto, ";
+            }
             String apellidoContacto = mApellidoContactoText.getText().toString();
+            if (apellidoContacto == null || apellidoContacto.equals("")) {
+                error += "Apellido del contacto, ";
+            }
             String telefonoContacto = mTelefonoContactoText.getText().toString();
+            if (telefonoContacto == null || telefonoContacto.equals("")) {
+                error += "Teléfono del contacto, ";
+            }
+            else {
+                try {
+                    int tlfContacto = Integer.parseInt(telefonoContacto);
+                    if (tlfContacto < 0) {
+                        error += "Teléfono del contacto, ";
+                    }
+                }
+                catch (NumberFormatException e) {
+                    throw new ErrorException();
+                }
+            }
 
-            UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, true);
+            if (error.length() > 0) {
+                String advertencia = "Error en el campo: " + error.substring(0, error.length()-2) + ".";
+                Toast.makeText(getApplicationContext(), advertencia, Toast.LENGTH_SHORT).show();
+            }
+
+
+            UserAdapter adaptadorUsuarios = null;
+            if (!modificacion) {
+                adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, true);
+            }
+            else {
+                adaptadorUsuarios = new UserAdapter(Constants.MODIFY_USER, false, email);
+            }
             User usuario = new User(nombre, apellido, email, anyoNacimiento, telefono, infoMedica,
                     residencia, contrasenya, nombreContacto, apellidoContacto, telefonoContacto);
             peticionAceptada = adaptadorUsuarios.enviarPeticionRegistrar(usuario);
@@ -136,27 +224,16 @@ public class CreateAccountActivity extends AppCompatActivity {
         UserAdapter adaptadorUsuarios = new UserAdapter(Constants.FETCH_USER, false, email);
         User usuario = adaptadorUsuarios.peticionFetchUsuario();
         mNombreText.setText(usuario.getNombre());
-        mNombreText.setEnabled(false);
         mApellidoText.setText(usuario.getApellido());
-        mApellidoText.setEnabled(false);
         mEmailText.setText(usuario.getEmail());
-        mEmailText.setEnabled(false);
         mAnyoNacimientoText.setText(usuario.getAnyoNacimiento());
-        mAnyoNacimientoText.setEnabled(false);
         mTelefonoText.setText(usuario.getTelefono());
-        mTelefonoText.setEnabled(false);
         mInfoMedicaText.setText(usuario.getInfoMedica());
-        mInfoMedicaText.setEnabled(false);
         mResidenciaText.setText(usuario.getResidencia());
-        mResidenciaText.setEnabled(false);
         mContrasenyaText.setText(usuario.getContrasenya());
-        mContrasenyaText.setEnabled(false);
         mNombreContactoText.setText(usuario.getNombreContacto());
-        mNombreContactoText.setEnabled(false);
         mApellidoContactoText.setText(usuario.getApellidoContacto());
-        mApellidoContactoText.setEnabled(false);
         mTelefonoContactoText.setText(usuario.getTelefonoContacto());
-        mTelefonoContactoText.setEnabled(false);
     }
 
 }
