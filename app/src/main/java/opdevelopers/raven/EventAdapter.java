@@ -38,16 +38,24 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
         try {
             switch (typeRequest) {
                 case Constants.CREATE_EVENT:
-                    URL url = url = new URL("http://raven-sirbargus.rhcloud.com/createEvent");
+                    URL url = new URL("http://raven-sirbargus.rhcloud.com/createEvent");
                     conn = (HttpURLConnection) url.openConnection();
                     conn.setReadTimeout(15000);
                     conn.setConnectTimeout(15000);
                     conn.setRequestMethod("POST");
                     conn.setDoOutput(true);
                     break;
-                case Constants.FETCH_EVENTS:
-                    URL url2 = url2 = new URL("http://raven-sirbargus.rhcloud.com/getEvents/" + getParams[0]);
+                case Constants.MODIFY_EVENT:
+                    URL url2 = new URL("http://raven-sirbargus.rhcloud.com/modifyEvent/" + getParams[0]);
                     conn = (HttpURLConnection) url2.openConnection();
+                    conn.setReadTimeout(15000);
+                    conn.setConnectTimeout(15000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    break;
+                case Constants.FETCH_EVENTS:
+                    URL url3 = new URL("http://raven-sirbargus.rhcloud.com/getEvents/" + getParams[0]);
+                    conn = (HttpURLConnection) url3.openConnection();
                     conn.setReadTimeout(15000);
                     conn.setConnectTimeout(15000);
                     conn.setRequestMethod("GET");
@@ -94,6 +102,25 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
 
     public boolean enviarPeticionCrearEvento(Event evento) {
         postDataParams = new HashMap<>();
+        postDataParams.put("email", evento.getEmail());
+        postDataParams.put("texto", evento.getMensaje());
+        postDataParams.put("day", evento.getDate());
+        postDataParams.put("hour", evento.getTime());
+        postDataParams.put("periodicidad", evento.getPeriodicidad());
+
+        doInBackground();
+
+        if (responseCode == HttpsURLConnection.HTTP_OK) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean enviarPeticionModificarEvento(Event evento) {
+        postDataParams = new HashMap<>();
+        postDataParams.put("id", evento.getId());
         postDataParams.put("email", evento.getEmail());
         postDataParams.put("texto", evento.getMensaje());
         postDataParams.put("day", evento.getDate());

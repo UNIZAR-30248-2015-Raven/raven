@@ -268,6 +268,11 @@ class CompactCalendarController {
         }
     }
 
+    void removeEvents() {
+        if (events != null) {
+            events.clear();
+        }
+    }
 
     //E.g. 4 2016 becomes 2016_4
     private String getKeyForCalendarEvent(Calendar cal) {

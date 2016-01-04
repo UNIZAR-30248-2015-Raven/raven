@@ -1,21 +1,17 @@
 package opdevelopers.raven.calendario;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -93,7 +89,21 @@ public class CalendarioActivity extends AppCompatActivity {
                 intent.putExtra("id", listViewEventos.get(position).getId());
                 intent.putExtra("email", listViewEventos.get(position).getEmail());
                 intent.putExtra("mensaje", listViewEventos.get(position).getMensaje());
-                intent.putExtra("date", listViewEventos.get(position).getDate());
+                String date = listViewEventos.get(position).getDate();
+                String ceroMes = "";
+                String ceroDia = "";
+                if (date.equals("")) {
+                    if (mes < 10) {
+                        ceroMes = "0";
+                    }
+                    if (dia < 10) {
+                        ceroDia = "0";
+                    }
+                    intent.putExtra("date", anno + "-" + ceroMes + mes + "-" + ceroDia + dia);
+                }
+                else {
+                    intent.putExtra("date", date);
+                }
                 intent.putExtra("hora", listViewEventos.get(position).getTime());
                 intent.putExtra("periodicidad", listViewEventos.get(position).getPeriodicidad());
 
@@ -117,7 +127,7 @@ public class CalendarioActivity extends AppCompatActivity {
 
 
         //obtener eventos del usuario y actualizar vista
-        eventos = obetenerEventos();
+        eventos = obtenerEventos();
         mostrarEventosEnVista();
         actualizarListaEventos();
 
@@ -162,11 +172,20 @@ public class CalendarioActivity extends AppCompatActivity {
     private void actualizarListaEventos() {
         //evitar que el día 05 no sea el mismo que el 5
         String diaString;
+        //evitar que el mes 05 no sea el mismo que el 5
+        String mesString;
 
         if (dia < 10) {
             diaString = "0" + String.valueOf(dia);
         } else {
             diaString = String.valueOf(dia);
+        }
+
+        if (mes < 10) {
+            mesString = "0" + String.valueOf(mes);
+        }
+        else {
+            mesString = String.valueOf(mes);
         }
 
         //borrar los posibles eventos que se puedan estar mostrando al usuario
@@ -180,7 +199,7 @@ public class CalendarioActivity extends AppCompatActivity {
                 values = evento.getDate().split("-");
 
                 if ((values[ANNO].compareTo(String.valueOf(anno)) == 0) &&
-                        (values[MES].compareTo(String.valueOf(mes)) == 0) &&
+                        (values[MES].compareTo(mesString) == 0) &&
                         (values[DIA].compareTo(diaString) == 0)) {
                     mutableEventos.add(evento.getMensaje() + " a las " + evento.getTime());
                     listViewEventos.add(evento);
@@ -218,7 +237,7 @@ public class CalendarioActivity extends AppCompatActivity {
      *
      * @return lista de eventos asociados al usuario
      */
-    private ArrayList<Event> obetenerEventos() {
+    private ArrayList<Event> obtenerEventos() {
         EventAdapter adaptadorEventos = new EventAdapter(Constants.FETCH_EVENTS, obtenerEmailUsuario());
         ArrayList<Event> listEvents = (ArrayList) adaptadorEventos.peticionFetchEventos();
 
@@ -236,8 +255,8 @@ public class CalendarioActivity extends AppCompatActivity {
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ACTIVITY_CREAR_EVENTO) {
-            eventos = obetenerEventos();
+        if ((requestCode == ACTIVITY_CREAR_EVENTO) || (requestCode == ACTIVITY_DETALLAR_EVENTO)) {
+            eventos = obtenerEventos();
             mostrarEventosEnVista();
             actualizarListaEventos();
         }
@@ -248,6 +267,7 @@ public class CalendarioActivity extends AppCompatActivity {
      */
     private void mostrarEventosEnVista() {
         long miliseconds;
+        compactCalendarView.removeEvents();
         for (Event event : eventos) {
             if ((miliseconds = toMiliseconds(event)) == EVENTO_PERIODICO) {
                 anndirEventosPeriodicos(event);

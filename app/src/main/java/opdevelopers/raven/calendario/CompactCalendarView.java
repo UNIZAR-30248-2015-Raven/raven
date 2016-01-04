@@ -151,6 +151,13 @@ public class CompactCalendarView extends View {
         }
     }
 
+    /**
+     * Removes all events from the calendar.
+     */
+    public void removeEvents(){
+        compactCalendarController.removeEvents();
+    }
+
     @Override
     protected void onMeasure(int parentWidth, int parentHeight) {
         super.onMeasure(parentWidth, parentHeight);

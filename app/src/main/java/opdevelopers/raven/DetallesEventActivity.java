@@ -28,6 +28,7 @@ public class DetallesEventActivity extends AppCompatActivity {
 
     private static final String USUARIO = "CorreoUsuario";
 
+    private String id;                       // Id del evento
     private EditText mMensajeText;           // Mensaje del evento
     private EditText mFechaText;             // Fecha del evento
     private EditText mHoraText;              // Hora del evento
@@ -54,6 +55,7 @@ public class DetallesEventActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        id = intent.getStringExtra("id");
         String mensaje = intent.getStringExtra("mensaje");
         String date = intent.getStringExtra("date");
         String hora = intent.getStringExtra("hora");
@@ -158,8 +160,11 @@ public class DetallesEventActivity extends AppCompatActivity {
         mDomingo = (CheckBox) findViewById(R.id.chDomingo);
 
         if (periodicidad.length() != 0) {
-            mFechaText.setText(" ", TextView.BufferType.EDITABLE);
+            mFechaText.setEnabled(false);
             checkCheckboxes(periodicidad);
+        }
+        else {
+            mFechaText.setEnabled(true);
         }
     }
 
@@ -170,24 +175,31 @@ public class DetallesEventActivity extends AppCompatActivity {
             switch (s) {
                 case CalendarioActivity.LUNES:
                     mLunes.setChecked(true);
+                    lunes = mLunes.isChecked() ? true : false;
                     break;
                 case CalendarioActivity.MARTES:
                     mMartes.setChecked(true);
+                    martes = mMartes.isChecked() ? true : false;
                     break;
                 case CalendarioActivity.MIERCOLES:
                     mMiercoles.setChecked(true);
+                    miercoles = mMiercoles.isChecked() ? true : false;
                     break;
                 case CalendarioActivity.JUEVES:
                     mJueves.setChecked(true);
+                    jueves = mJueves.isChecked() ? true : false;
                     break;
                 case CalendarioActivity.VIERNES:
                     mViernes.setChecked(true);
+                    viernes = mViernes.isChecked() ? true : false;
                     break;
                 case CalendarioActivity.SABADO:
                     mSabado.setChecked(true);
+                    sabado = mSabado.isChecked() ? true : false;
                     break;
                 case CalendarioActivity.DOMINGO:
                     mDomingo.setChecked(true);
+                    domingo = mDomingo.isChecked() ? true : false;
                     break;
                 default:
                     break;
@@ -246,9 +258,9 @@ public class DetallesEventActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), advertencia + errorFechaPeriodicidad, Toast.LENGTH_SHORT).show();
             }
 
-            EventAdapter adaptadorEventos = new EventAdapter(Constants.CREATE_EVENT);
-            Event evento = new Event("", email, mensaje, fecha, hora, periodicidad);
-            peticionAceptada = adaptadorEventos.enviarPeticionCrearEvento(evento);
+            EventAdapter adaptadorEventos = new EventAdapter(Constants.MODIFY_EVENT, id);
+            Event evento = new Event(id, email, mensaje, fecha, hora, periodicidad);
+            peticionAceptada = adaptadorEventos.enviarPeticionModificarEvento(evento);
         }
         catch (ErrorException e) {
             e.printStackTrace();
