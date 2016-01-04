@@ -47,4 +47,11 @@
     <string name="registrar">REGISTRARSE</string>
 
     <string name="contador">Contador</string>
+    <string name="crear_contador">CREAR CONTADOR</string>
+    <string name="titulo">Título</string>
+    <string name="no_titulo">Introduzca el título</string>
+    <string name="no_tiempo">Introduzca el tiempo</string>
+    <string name="sonara_en">Sonará en</string>
+    <string name="horas">hora/s</string>
+    <string name="minutos">minuto/s</string>
 </resources>
