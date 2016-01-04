@@ -34,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivityForResult(i, ACTIVITY_CALENDARIO);
             }
         });
+
+        ImageButton botonContador = (ImageButton) findViewById(R.id.botonContador);
+        botonContador.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ContadorActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

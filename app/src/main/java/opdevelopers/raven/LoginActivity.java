@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                     LoginActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), R.string.error_datos,
                             Toast.LENGTH_SHORT).show();
