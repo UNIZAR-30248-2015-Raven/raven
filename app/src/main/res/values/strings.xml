@@ -45,4 +45,6 @@
     <string name="crear_evento">CREAR EVENTO</string>
     <string name="iniciar_sesion">INICIAR SESIÓN</string>
     <string name="registrar">REGISTRARSE</string>
+
+    <string name="contador">Contador</string>
 </resources>

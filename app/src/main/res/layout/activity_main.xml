@@ -12,17 +12,30 @@
         android:layout_marginBottom="8dp" android:visibility="gone" />
 
     <ScrollView android:id="@+id/main_form" android:layout_width="match_parent"
-        android:layout_height="415dp">
+        android:layout_height="match_parent"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp">
 
-        <LinearLayout android:id="@+id/principal_form" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical">
+        <RelativeLayout android:id="@+id/principal_form" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal">
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/BotonCalendario"
                 android:src="@drawable/calendario_icono"
-                android:background="@null" />
-        </LinearLayout>
+                android:background="@null"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/botonContador"
+                android:src="@drawable/contador_icono"
+                android:background="@null"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
     </ScrollView>
 </LinearLayout>

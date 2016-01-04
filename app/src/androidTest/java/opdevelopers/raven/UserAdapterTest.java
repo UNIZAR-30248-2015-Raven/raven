@@ -32,8 +32,8 @@ public class UserAdapterTest extends InstrumentationTestCase {
             @Override
             public void run() {
                 try {
-                    User usuario = new User("Nombre", "Apellido", "ejemplo321@example.com", "1994", "976131313",
-                            "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654321");
+                    User usuario = new User("Nombre", "Apellido", "ejemplo32@example.com", "1994", "776131313",
+                            "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654320");
                     UserAdapterTest.peticionUsuarioAceptada1 = adaptadorUsuarios1.enviarPeticionRegistrar(usuario);
                 } catch (ErrorException e) {
                     e.printStackTrace();
@@ -57,7 +57,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
             @Override
             public void run() {
                 try {
-                    User usuario = new User("ejemplo321@example.com", "prueba");
+                    User usuario = new User("ejemplo32@example.com", "prueba");
                     UserAdapterTest.peticionUsuarioAceptada2 = adaptadorUsuarios2.enviarPeticionSesion(usuario);
                 } catch (ErrorException e) {
                     e.printStackTrace();
