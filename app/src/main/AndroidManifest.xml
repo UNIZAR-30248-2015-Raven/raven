@@ -33,8 +33,10 @@
 
         <uses-library android:name="android.test.runner" />
 
-        <activity android:name=".ContadorActivity"
-            android:windowSoftInputMode="stateAlwaysVisible"/>
+        <activity
+            android:name=".ContadorActivity"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+        <activity android:name=".AlarmActivity"></activity>
     </application>
 
 </manifest>

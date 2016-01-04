@@ -54,4 +54,5 @@
     <string name="sonara_en">Sonará en</string>
     <string name="horas">hora/s</string>
     <string name="minutos">minuto/s</string>
+    <string name="alarma">Toca para cancelar</string>
 </resources>

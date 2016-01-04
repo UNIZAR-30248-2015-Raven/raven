@@ -1,5 +1,8 @@
 package opdevelopers.raven;
 
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +14,6 @@ import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
 
 /**
@@ -114,15 +116,18 @@ public class ContadorActivity extends AppCompatActivity {
                     * MIN_TO_MILISEC;
 
 
-            // nuevo contador
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    //code that runs when timer is done
-                    Log.e("IEE", "IEE" + hourPicker.getValue() + minPicker.getValue());
+            Handler handler = new Handler() {
+                // cuando haya acabado el contador se empieza otra Acivity
+                public void handleMessage(Message msg) {
+                    String message = (String) msg.obj; //Extract the string from the Message
+                    Intent viewTargetActivity = new Intent(ContadorActivity.this, AlarmActivity.class);
+                    viewTargetActivity.putExtra("titulo", message);
+                    startActivity(viewTargetActivity);
                 }
-            }, millis);
+            };
 
+            Timer timer = new Timer();
+            timer.schedule(new ContadorTask(handler, titulo.getText().toString()), millis);
 
             Toast.makeText(this, getResources().getString(R.string.sonara_en) + " "
                     + hourPicker.getValue() + " " + getResources().getString(R.string.horas)
