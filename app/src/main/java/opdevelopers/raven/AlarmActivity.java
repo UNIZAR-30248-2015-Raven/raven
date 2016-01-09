@@ -19,9 +19,16 @@ public class AlarmActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // no mostramos el action bar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         setContentView(R.layout.activity_alarm);
 
-        setTitle(getIntent().getStringExtra("titulo"));
+        TextView titulo = (TextView) findViewById(R.id.titulo);
+        titulo.setText(getIntent().getStringExtra("titulo"));
 
         TextView cancelarAlarma = (TextView) findViewById(R.id.cancelButton);
 

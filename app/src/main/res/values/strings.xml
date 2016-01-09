@@ -56,5 +56,5 @@
     <string name="minutos">minutos</string>
     <string name="segundos">segundos</string>
     <string name="dos_puntos">:</string>
-    <string name="alarma">Toca para cancelar</string>
+    <string name="toca_cancelar">Toca para cancelar</string>
 </resources>

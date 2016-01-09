@@ -9,8 +9,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="opdevelopers.raven.AlarmActivity">
 
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/colorAlarm"
+        android:textStyle="bold"
+        android:layout_above="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
     <ImageView
-        android:contentDescription="@string/alarma"
+        android:contentDescription="@string/toca_cancelar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_alarm"
@@ -23,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/alarma"
+        android:text="@string/toca_cancelar"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true"
         android:padding="25dp" />
