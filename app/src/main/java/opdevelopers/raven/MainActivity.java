@@ -42,6 +42,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ImageButton botonSimon = (ImageButton) findViewById(R.id.ibtnSimon);
+        botonSimon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SimonActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
