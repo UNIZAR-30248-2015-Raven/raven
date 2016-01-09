@@ -23,15 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:id="@+id/linearLayout"
         android:layout_below="@+id/titulo"
-        android:id="@+id/linearLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sonara_en"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_gravity="center_vertical" />
+        android:layout_centerHorizontal="true">
 
         <NumberPicker
             android:id="@+id/hourPicker"
@@ -41,8 +35,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/horas"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/dos_puntos"
             android:layout_gravity="center_vertical" />
 
         <NumberPicker
@@ -53,9 +47,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/minutos"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:layout_gravity="center_vertical" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/dos_puntos"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/textView" />
+
+        <NumberPicker
+            android:id="@+id/secPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <Button

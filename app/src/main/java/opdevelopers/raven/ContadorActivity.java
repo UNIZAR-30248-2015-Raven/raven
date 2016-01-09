@@ -22,17 +22,21 @@ import java.util.Timer;
  * Pantalla que se encarga de establecer un contador
  */
 public class ContadorActivity extends AppCompatActivity {
-    private static final int HOURS_TO_MIN = 60;
-    private static final int MIN_TO_MILISEC = 60000;
+    private static final long HOURS_TO_MILLISEC = 3600000;
+    private static final long MIN_TO_MILLISEC = 60000;
+    private static final long SEC_TO_MILISEC = 1000;
 
     private static final int MAX_HOUR_VALUE = 24;
     private static final int MAX_MIN_VALUE = 60;
+    private static final int MAX_SEC_VALUE = 60;
     private static final int MIN_HOUR_VALUE = 0;
     private static final int MIN_MIN_VALUE = 0;
+    private static final int MIN_SEC_VALUE = 0;
 
     private EditText titulo;
     private NumberPicker hourPicker;
     private NumberPicker minPicker;
+    private NumberPicker secPicker;
     private Button crearContadorButton;
 
     @Override
@@ -45,6 +49,7 @@ public class ContadorActivity extends AppCompatActivity {
 
         setPickerValues(hourPicker, MIN_HOUR_VALUE, MAX_HOUR_VALUE);
         setPickerValues(minPicker, MIN_MIN_VALUE, MAX_MIN_VALUE);
+        setPickerValues(secPicker, MIN_SEC_VALUE, MAX_SEC_VALUE);
 
         crearContadorButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,10 +80,12 @@ public class ContadorActivity extends AppCompatActivity {
 
         hourPicker = (NumberPicker) findViewById(R.id.hourPicker);
         minPicker = (NumberPicker) findViewById(R.id.minPicker);
+        secPicker = (NumberPicker) findViewById(R.id.secPicker);
 
         // evita que se puedan editar directamente con el teclado
         hourPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         minPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        secPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         crearContadorButton = (Button) findViewById(R.id.boton_crear_contador);
     }
@@ -87,7 +94,7 @@ public class ContadorActivity extends AppCompatActivity {
     /**
      * Establece el rango de los NumberPickers
      *
-     * @param picker (hour o min)
+     * @param picker hour, min or sec
      * @param minValue del rango
      * @param maxValue del rango
      */
@@ -112,8 +119,11 @@ public class ContadorActivity extends AppCompatActivity {
     private void crearContador() {
         if (sonDatosValidos()) {
             // tiempo en que sonará el contador
-            int millis = ((hourPicker.getValue() * HOURS_TO_MIN) + minPicker.getValue())
-                    * MIN_TO_MILISEC;
+            long millis = (hourPicker.getValue() * HOURS_TO_MILLISEC)
+                    + (minPicker.getValue() * MIN_TO_MILLISEC)
+                    + (secPicker.getValue() * SEC_TO_MILISEC);
+
+            Log.e("milis", String.valueOf(millis));
 
 
             Handler handler = new Handler() {
@@ -130,8 +140,9 @@ public class ContadorActivity extends AppCompatActivity {
             timer.schedule(new ContadorTask(handler, titulo.getText().toString()), millis);
 
             Toast.makeText(this, getResources().getString(R.string.sonara_en) + " "
-                    + hourPicker.getValue() + " " + getResources().getString(R.string.horas)
-                    + " " + minPicker.getValue() + " " + getResources().getString(R.string.minutos),
+                            + hourPicker.getValue() + " " + getResources().getString(R.string.horas)
+                            + " " + minPicker.getValue() + " " + getResources().getString(R.string.minutos)
+                            + " " + secPicker.getValue() + " " + getResources().getString(R.string.segundos),
                     Toast.LENGTH_SHORT).show();
 
             finish();
@@ -152,9 +163,10 @@ public class ContadorActivity extends AppCompatActivity {
 
         int hours = hourPicker.getValue();
         int mins = minPicker.getValue();
+        int sec = secPicker.getValue();
 
         // compureba que ha introducido un tiempo
-        if ((hours == MIN_HOUR_VALUE) && (mins == MIN_MIN_VALUE)) {
+        if ((hours == MIN_HOUR_VALUE) && (mins == MIN_MIN_VALUE) && (sec == MIN_SEC_VALUE)) {
             Toast.makeText(this, R.string.no_tiempo, Toast.LENGTH_SHORT).show();
 
             return false;

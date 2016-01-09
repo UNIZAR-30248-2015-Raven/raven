@@ -52,7 +52,9 @@
     <string name="no_titulo">Introduzca el título</string>
     <string name="no_tiempo">Introduzca el tiempo</string>
     <string name="sonara_en">Sonará en</string>
-    <string name="horas">hora/s</string>
-    <string name="minutos">minuto/s</string>
+    <string name="horas">horas</string>
+    <string name="minutos">minutos</string>
+    <string name="segundos">segundos</string>
+    <string name="dos_puntos">:</string>
     <string name="alarma">Toca para cancelar</string>
 </resources>
