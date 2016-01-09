@@ -13,10 +13,12 @@ import java.util.TimerTask;
 public class ContadorTask extends TimerTask {
     private Handler handler;
     private String mensaje;
+    private int id;
 
-    public ContadorTask(Handler handler, String mensaje) {
+    public ContadorTask(Handler handler, String mensaje, int id) {
         this.handler = handler;
         this.mensaje = mensaje;
+        this.id = id;
     }
 
 
@@ -26,7 +28,7 @@ public class ContadorTask extends TimerTask {
     public void run() {
         // envía un mensaje a la vista
         Message message = Message.obtain();
-        message.obj = mensaje;
+        message.obj = mensaje + ":" + id;
 
         handler.sendMessage(message);
     }

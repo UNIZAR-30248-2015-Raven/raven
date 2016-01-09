@@ -1,9 +1,12 @@
 package opdevelopers.raven;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,7 +31,12 @@ public class AlarmActivity extends AppCompatActivity {
         setContentView(R.layout.activity_alarm);
 
         TextView titulo = (TextView) findViewById(R.id.titulo);
-        titulo.setText(getIntent().getStringExtra("titulo"));
+
+        String extra = getIntent().getStringExtra("info");
+
+        String[] info = extra.split(":");
+
+        titulo.setText(info[0]);
 
         TextView cancelarAlarma = (TextView) findViewById(R.id.cancelButton);
 
@@ -39,6 +47,10 @@ public class AlarmActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        // Clear notificaction
+        NotificationManager nMgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nMgr.cancel(Integer.parseInt(info[1]));
 
         empezarSonar();
     }

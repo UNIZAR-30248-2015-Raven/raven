@@ -1,5 +1,7 @@
 package opdevelopers.raven;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +15,8 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Timer;
 
 
@@ -38,6 +42,8 @@ public class ContadorActivity extends AppCompatActivity {
     private NumberPicker minPicker;
     private NumberPicker secPicker;
     private Button crearContadorButton;
+
+    private static int notificationId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,21 +129,19 @@ public class ContadorActivity extends AppCompatActivity {
                     + (minPicker.getValue() * MIN_TO_MILLISEC)
                     + (secPicker.getValue() * SEC_TO_MILISEC);
 
-            Log.e("milis", String.valueOf(millis));
-
-
             Handler handler = new Handler() {
                 // cuando haya acabado el contador se empieza otra Acivity
                 public void handleMessage(Message msg) {
                     String message = (String) msg.obj; //Extract the string from the Message
                     Intent viewTargetActivity = new Intent(ContadorActivity.this, AlarmActivity.class);
-                    viewTargetActivity.putExtra("titulo", message);
+                    viewTargetActivity.putExtra("info", message);
+                    Log.e("handler", String.valueOf(notificationId));
                     startActivity(viewTargetActivity);
                 }
             };
 
             Timer timer = new Timer();
-            timer.schedule(new ContadorTask(handler, titulo.getText().toString()), millis);
+            timer.schedule(new ContadorTask(handler, titulo.getText().toString(), ++notificationId), millis);
 
             Toast.makeText(this, getResources().getString(R.string.sonara_en) + " "
                             + hourPicker.getValue() + " " + getResources().getString(R.string.horas)
@@ -145,8 +149,38 @@ public class ContadorActivity extends AppCompatActivity {
                             + " " + secPicker.getValue() + " " + getResources().getString(R.string.segundos),
                     Toast.LENGTH_SHORT).show();
 
+            crearNotificacion();
+
             finish();
         }
+    }
+
+
+    /**
+     * Crea una notificación para la alarma
+     */
+    private void crearNotificacion() {
+        Date date = new Date();
+        date.setTime(System.currentTimeMillis() + (hourPicker.getValue() * HOURS_TO_MILLISEC)
+                + (minPicker.getValue() * MIN_TO_MILLISEC)
+                + (secPicker.getValue() * SEC_TO_MILISEC));
+
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        String now = formatter.format(date);
+
+        Notification notification = new Notification.Builder(this)
+                .setContentTitle(titulo.getText().toString())
+                .setContentText(now)
+                .setSmallIcon(R.drawable.ic_alarm)
+                .setOngoing(true)
+                .getNotification();
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        notificationManager.notify(notificationId, notification);
+
+        Log.e("crear", String.valueOf(notificationId));
     }
 
 
