@@ -4,6 +4,7 @@
     <string name="registrarse">Registrarse</string>
     <string name="ver_cuenta">Ver cuenta</string>
     <string name="crear_evento_label">Crear evento</string>
+    <string name="borrar_evento_label">Borrar evento</string>
     <string name="ver_evento">Ver evento</string>
     <string name="menu">Menú</string>
     <string name="calendario">Calendario</string>
@@ -36,8 +37,10 @@
 
     <string name="error_datos">Datos introducidos erróneamente</string>
     <string name="error_email_tlf">Email o teléfono ya utilizado</string>
+    <string name="error_borrado">Error borrando evento</string>
     <string name="exito_datos">Datos introducidos correctamente</string>
     <string name="exito_actualizacion">Datos actualizados correctamente</string>
+    <string name="exito_borrado">Evento borrado correctamente</string>
     <string name="exito_sesion">Bienvenido</string>
 
     <string name="seguir">SEGUIR</string>

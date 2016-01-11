@@ -6,11 +6,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,6 +27,7 @@ import java.util.Locale;
 import opdevelopers.raven.Constants;
 import opdevelopers.raven.CreateEventActivity;
 import opdevelopers.raven.DetallesEventActivity;
+import opdevelopers.raven.ErrorException;
 import opdevelopers.raven.Event;
 import opdevelopers.raven.EventAdapter;
 import opdevelopers.raven.R;
@@ -78,6 +84,8 @@ public class CalendarioActivity extends AppCompatActivity {
         final ListView eventsListView = (ListView) findViewById(R.id.events_listview);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, mutableEventos);
         eventsListView.setAdapter(adapter);
+
+        registerForContextMenu(eventsListView);
 
         //cuando se pulsa sobre un item de la lista se muestra detalladamente el evento pulsado
         eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -372,5 +380,46 @@ public class CalendarioActivity extends AppCompatActivity {
         }
 
         return diasSemanaEvento;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, Constants.DELETE_EVENT, 0, R.string.borrar_evento_label);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case Constants.DELETE_EVENT:
+                try {
+                    AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+                    EventAdapter adaptadorEventos = new EventAdapter(Constants.DELETE_EVENT);
+                    String id = listViewEventos.get(info.position).getId();
+                    String email = listViewEventos.get(info.position).getEmail();
+                    String mensaje = listViewEventos.get(info.position).getMensaje();
+                    String fecha = listViewEventos.get(info.position).getDate();
+                    String hora = listViewEventos.get(info.position).getTime();
+                    String periodicidad = listViewEventos.get(info.position).getPeriodicidad();
+                    Event evento = new Event(id, email, mensaje, fecha, hora, periodicidad);
+                    boolean peticionAceptada = adaptadorEventos.enviarPeticionBorrarEvento(evento);
+                    if (peticionAceptada) {
+                        Toast.makeText(getApplicationContext(), R.string.exito_borrado,
+                                Toast.LENGTH_SHORT).show();
+                        eventos = obtenerEventos();
+                        mostrarEventosEnVista();
+                        actualizarListaEventos();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.error_borrado,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+                catch (ErrorException e) {
+                    e.printStackTrace();
+                }
+                return true;
+        }
+        return super.onContextItemSelected(item);
     }
 }

@@ -66,6 +66,14 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
                     }
                     rd.close();
                     break;
+                case Constants.DELETE_EVENT:
+                    URL url4 = new URL("http://raven-sirbargus.rhcloud.com/deleteEvent");
+                    conn = (HttpURLConnection) url4.openConnection();
+                    conn.setReadTimeout(15000);
+                    conn.setConnectTimeout(15000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    break;
             }
 
         } catch (IOException e) {
@@ -119,6 +127,25 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
     }
 
     public boolean enviarPeticionModificarEvento(Event evento) {
+        postDataParams = new HashMap<>();
+        postDataParams.put("id", evento.getId());
+        postDataParams.put("email", evento.getEmail());
+        postDataParams.put("texto", evento.getMensaje());
+        postDataParams.put("day", evento.getDate());
+        postDataParams.put("hour", evento.getTime());
+        postDataParams.put("periodicidad", evento.getPeriodicidad());
+
+        doInBackground();
+
+        if (responseCode == HttpsURLConnection.HTTP_OK) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean enviarPeticionBorrarEvento(Event evento) {
         postDataParams = new HashMap<>();
         postDataParams.put("id", evento.getId());
         postDataParams.put("email", evento.getEmail());
