@@ -147,12 +147,8 @@ public class EventAdapter extends AsyncTask<Void, Void, Void> {
 
     public boolean enviarPeticionBorrarEvento(Event evento) {
         postDataParams = new HashMap<>();
-        postDataParams.put("id", evento.getId());
+        postDataParams.put("id_event", evento.getId());
         postDataParams.put("email", evento.getEmail());
-        postDataParams.put("texto", evento.getMensaje());
-        postDataParams.put("day", evento.getDate());
-        postDataParams.put("hour", evento.getTime());
-        postDataParams.put("periodicidad", evento.getPeriodicidad());
 
         doInBackground();
 
