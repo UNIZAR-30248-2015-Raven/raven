@@ -1,55 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.0"
+<!--
+ * By William D. Cattey
+ * 
+ * This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+ * To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ 
+ * or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+ * 
+ * Summary of terms: may use this code for non-commercial purposes, and you may make changes, but you must 
+ * attribute the source, and you must share the source under these same terms.
+-->
 
-        android:orientation="horizontal" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
 
-        <Button
-            android:id="@+id/btYellow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorYellowDark"
-            android:clickable="true"
-            android:layout_weight="1.0" />
+    >
+    <!-- android:background="@drawable/background_config" -->
+    <opdevelopers.raven.ButtonGridView
+        android:id="@+id/button_grid"
+        android:layout_alignParentTop="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/btGreen"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorGreenDark"
-            android:clickable="true"
-            android:layout_weight="1.0" />
+    <TableLayout android:id="@+id/button_table"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:stretchColumns="1,3"
+        >
 
-    </LinearLayout>
+        <TableRow android:layout_gravity="left">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1.0"
-        android:orientation="horizontal" >
+            <View
+                android:layout_height="2dip"
+                />
+            <TextView
+                android:layout_gravity="left"
+                android:text="@string/game"
+                />
+            <TextView
+                android:id="@+id/game"
+                android:layout_gravity="left"
+                android:text="1"
+                />
+            <TextView
+                android:layout_gravity="left"
+                android:text="@string/level"
+                />
+            <TextView
+                android:id="@+id/level"
+                android:layout_gravity="left"
+                android:text="1"
+                />
+        </TableRow>
 
-        <Button
-            android:id="@+id/btBlue"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorBlueDark"
-            android:clickable="true"
-            android:layout_weight="1.0" />
+        <TableRow android:layout_gravity="center">
+            <Button
+                android:id="@+id/last"
+                android:background="@drawable/yellow_control"
+                />
+            <View
+                android:layout_height="2dip"
+                />
+            <Button
+                android:id="@+id/start"
+                android:background="@drawable/red_control"
+                />
+            <View
+                android:layout_height="2dip"
+                />
+            <Button
+                android:id="@+id/longest"
+                android:background="@drawable/yellow_control"
+                />
+        </TableRow>
 
-        <Button
-            android:id="@+id/btRed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorRedDark"
-            android:clickable="true"
-            android:layout_weight="1.0"/>
+        <TableRow android:layout_gravity="center">
+            <TextView  android:layout_gravity="center"
+                android:text="@string/last"
+                />
+            <View
+                android:layout_height="2dip"
+                />
+            <TextView  android:layout_gravity="center"
+                android:text="@string/start"
+                />
+            <View
+                android:layout_height="2dip"
+                />
+            <TextView  android:layout_gravity="center"
+                android:text="@string/longest"
+                />
 
-    </LinearLayout>
-</LinearLayout>
+        </TableRow>
+
+    </TableLayout>
+</RelativeLayout>
