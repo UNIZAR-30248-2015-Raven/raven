@@ -41,7 +41,7 @@
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/BotonCalendario"
+                    android:id="@+id/botonCalendario"
                     android:src="@drawable/calendario_icono"
                     android:background="@null"
                     android:layout_alignParentTop="true"

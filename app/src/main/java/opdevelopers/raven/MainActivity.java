@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle(R.string.menu);
 
-        ImageButton botonCalendario = (ImageButton) findViewById(R.id.BotonCalendario);
+        ImageButton botonCalendario = (ImageButton) findViewById(R.id.botonCalendario);
         botonCalendario.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, CalendarioActivity.class);

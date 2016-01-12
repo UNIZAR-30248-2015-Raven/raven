@@ -43,7 +43,7 @@ public class LoginCreateEvent extends ActivityInstrumentationTestCase2<LoginActi
         //Wait for activity: 'opdevelopers.raven.MainActivity'
 		//assertTrue("opdevelopers.raven.MainActivity is not found!", solo.waitForActivity(opdevelopers.raven.MainActivity.class));
         //Click on ImageView
-		solo.clickOnView(solo.getView(opdevelopers.raven.R.id.BotonCalendario));
+		solo.clickOnView(solo.getView(opdevelopers.raven.R.id.botonCalendario));
         //Wait for activity: 'opdevelopers.raven.calendario.CalendarioActivity'
 		//assertTrue("opdevelopers.raven.calendario.CalendarioActivity is not found!", solo.waitForActivity(opdevelopers.raven.calendario.CalendarioActivity.class));
         //Click on CREAR EVENTO
