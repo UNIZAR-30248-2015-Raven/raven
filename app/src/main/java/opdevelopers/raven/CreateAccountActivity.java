@@ -67,6 +67,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     boolean actualizado = registrarUsuario(true);
                     if (actualizado) {
+                        actualizarPrefsUsuario();
                         Toast.makeText(getApplicationContext(), R.string.exito_actualizacion,
                                 Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(CreateAccountActivity.this, MainActivity.class);
