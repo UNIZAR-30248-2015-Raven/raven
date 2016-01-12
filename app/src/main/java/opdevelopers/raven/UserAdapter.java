@@ -69,6 +69,14 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
                     }
                     rd.close();
                     break;
+                case Constants.DELETE_USER:
+                    URL url4 = new URL("http://raven-sirbargus.rhcloud.com/deleteUser");
+                    conn = (HttpURLConnection) url4.openConnection();
+                    conn.setReadTimeout(15000);
+                    conn.setConnectTimeout(15000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoOutput(true);
+                    break;
             }
         }
         catch (IOException e) {
@@ -127,6 +135,21 @@ public class UserAdapter extends AsyncTask<Void, Void, Void> {
         postDataParams = new HashMap<>();
         postDataParams.put("email", usuario.getEmail());
         postDataParams.put("pass", usuario.getContrasenya());
+
+        doInBackground();
+
+        if (responseCode == HttpsURLConnection.HTTP_OK) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean enviarPeticionBorrar(String email, String pass) {
+        postDataParams = new HashMap<>();
+        postDataParams.put("email", email);
+        postDataParams.put("pass", pass);
 
         doInBackground();
 

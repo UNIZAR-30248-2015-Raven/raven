@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/borrar_cuenta_usuario"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/borrar_cuenta_usuario" />
+    <item android:id="@+id/ver_cuenta_usuario"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/ver_cuenta_usuario" />
     <item android:id="@+id/log_out"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/log_out" />
-    <item android:id="@+id/cuenta_usuario"
-        android:icon="@android:drawable/ic_menu_search"
-        android:title="@string/cuenta_usuario" />
 </menu>

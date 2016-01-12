@@ -30,6 +30,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private EditText mTelefonoContactoText; // Teléfono del contacto auxiliar
 
     private String email;
+    private String contrasenya;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
         SharedPreferences.Editor editor = prefsCorreo.edit();
         editor.putString("email", email);
+        editor.putString("pass", contrasenya);
         editor.commit();
     }
 
@@ -169,7 +171,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             if (residencia == null || residencia.equals("")) {
                 error += "Lugar de residencia, ";
             }
-            String contrasenya = mContrasenyaText.getText().toString();
+            contrasenya = mContrasenyaText.getText().toString();
             if (contrasenya == null || contrasenya.equals("")) {
                 error += "Contraseña, ";
             }

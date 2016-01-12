@@ -33,14 +33,17 @@
     <string name="prompt_time">Hora</string>
 
     <string name="log_out">Cerrar sesión</string>
-    <string name="cuenta_usuario">Cuenta de usuario</string>
+    <string name="ver_cuenta_usuario">Ver cuenta de usuario</string>
+    <string name="borrar_cuenta_usuario">Borrar cuenta de usuario</string>
 
     <string name="error_datos">Datos introducidos erróneamente</string>
     <string name="error_email_tlf">Email o teléfono ya utilizado</string>
     <string name="error_borrado">Error borrando evento</string>
+    <string name="error_eliminado">Error borrando usuario</string>
     <string name="exito_datos">Datos introducidos correctamente</string>
     <string name="exito_actualizacion">Datos actualizados correctamente</string>
     <string name="exito_borrado">Evento borrado correctamente</string>
+    <string name="exito_eliminado">Usuario borrado correctamente</string>
     <string name="exito_sesion">Bienvenido</string>
 
     <string name="seguir">SEGUIR</string>

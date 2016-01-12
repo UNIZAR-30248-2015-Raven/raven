@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mContrasenyaText;      // Contraseña del usuario
 
     private String email;
+    private String contrasenya;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
         SharedPreferences.Editor editor = prefsCorreo.edit();
         editor.putString("email", email);
+        editor.putString("pass", contrasenya);
         editor.commit();
     }
 
@@ -72,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
         SharedPreferences.Editor editor = prefsCorreo.edit();
         editor.putString("email", "");
+        editor.putString("pass", contrasenya);
         editor.commit();
     }
 
@@ -84,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         boolean sesionAceptada = false;
         try {
             email = mEmailText.getText().toString();
-            String contrasenya = mContrasenyaText.getText().toString();
+            contrasenya = mContrasenyaText.getText().toString();
 
             UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, false);
             User usuario = new User(email, contrasenya);

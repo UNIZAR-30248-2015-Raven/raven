@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import opdevelopers.raven.calendario.CalendarioActivity;
 
@@ -66,8 +67,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.log_out:
                 logOut();
                 return true;
-            case R.id.cuenta_usuario:
+            case R.id.ver_cuenta_usuario:
                 verCuentaUsuario();
+                return true;
+            case R.id.borrar_cuenta_usuario:
+                borrarCuentaUsuario();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -86,6 +90,27 @@ public class MainActivity extends AppCompatActivity {
     private void verCuentaUsuario() {
         Intent i = new Intent(MainActivity.this, CreateAccountActivity.class);
         MainActivity.this.startActivityForResult(i, ACTIVITY_CLIENTE);
+    }
+
+    private void borrarCuentaUsuario() {
+        SharedPreferences prefsCorreo = getSharedPreferences(USUARIO, 0);
+        String email = prefsCorreo.getString("email", null);
+        String contrasenya = prefsCorreo.getString("pass", null);
+        UserAdapter adaptadorUsuarios = new UserAdapter(Constants.DELETE_USER, false);
+        boolean peticionAceptada = adaptadorUsuarios.enviarPeticionBorrar(email, contrasenya);
+        if (peticionAceptada) {
+            Toast.makeText(getApplicationContext(), R.string.exito_eliminado,
+                    Toast.LENGTH_SHORT).show();
+            SharedPreferences.Editor editor = prefsCorreo.edit();
+            editor.clear();
+            Intent i = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(i);
+            finish();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), R.string.error_eliminado,
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
