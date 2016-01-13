@@ -31,8 +31,8 @@
         >
 
         <TableRow android:layout_gravity="center">
-            <Button
-                android:id="@+id/last"
+            <TextView
+                android:text=""
                 />
             <View
                 android:layout_height="2dip"
@@ -44,8 +44,8 @@
             <View
                 android:layout_height="2dip"
                 />
-            <Button
-                android:id="@+id/longest"
+            <TextView
+                android:text=""
                 />
         </TableRow>
 
