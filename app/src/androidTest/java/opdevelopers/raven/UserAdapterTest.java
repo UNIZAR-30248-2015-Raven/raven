@@ -116,7 +116,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
             public void run() {
                 try {
                     User usuario = new User("Modificado", "Modificado", "jjj@jjj.com", "1994", "776131311",
-                            "Modificado", "Modificado", "Modificado", "Modificado", "Modificado", "678654320");
+                            "Modificado", "Modificado", "prueba", "Modificado", "Modificado", "678654320");
                     UserAdapterTest.peticionModificarAceptada = adaptadorUsuarios.enviarPeticionRegistrar(usuario);
                 } catch (ErrorException e) {
                     e.printStackTrace();
@@ -136,7 +136,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
     public void deleteUser() throws Throwable {
         final CountDownLatch signalUser = new CountDownLatch(1);
 
-        final UserAdapter adaptadorUsuarios3 = new UserAdapter(Constants.DELETE_USER, true) {
+        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.DELETE_USER, true) {
 
             @Override
             public void onPostExecute() {
@@ -148,7 +148,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
         runTestOnUiThread(new Runnable() {
             @Override
             public void run() {
-                UserAdapterTest.peticionBorrarAceptada = adaptadorUsuarios3
+                UserAdapterTest.peticionBorrarAceptada = adaptadorUsuarios
                         .enviarPeticionBorrar("jjj@jjj.com", "prueba");
             }
         });
