@@ -3,7 +3,6 @@ package opdevelopers.raven;
 import android.test.InstrumentationTestCase;
 
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Eduardo on 01/12/2015.
@@ -11,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class UserAdapterTest extends InstrumentationTestCase {
     public static boolean peticionCreacionAceptada = false;
     public static boolean peticionInicioSesionAceptada = false;
+    public static boolean peticionModificarAceptada = false;
     public static boolean peticionBorrarAceptada = false;
 
 
@@ -25,6 +25,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
         }
     }
 
+
     /**
      * Debe de crear un nuevo usuario
      *
@@ -33,7 +34,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
     public void createUser() throws Throwable {
         final CountDownLatch signalUser = new CountDownLatch(1);
 
-        final UserAdapter adaptadorUsuarios1 = new UserAdapter(Constants.CREATE_USER, true) {
+        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, true) {
 
             @Override
             public void onPostExecute() {
@@ -49,7 +50,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
                 try {
                     User usuario = new User("Nombre", "Apellido", "jjj@jjj.com", "1994", "776131311",
                             "Sano", "Zaragoza", "prueba", "NombreContacto", "ApellidoContacto", "678654320");
-                    UserAdapterTest.peticionCreacionAceptada = adaptadorUsuarios1.enviarPeticionRegistrar(usuario);
+                    UserAdapterTest.peticionCreacionAceptada = adaptadorUsuarios.enviarPeticionRegistrar(usuario);
                 } catch (ErrorException e) {
                     e.printStackTrace();
                 }
@@ -68,7 +69,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
     public void testLoginUser() throws Throwable {
         final CountDownLatch signalUser = new CountDownLatch(1);
 
-        final UserAdapter adaptadorUsuarios2 = new UserAdapter(Constants.CREATE_USER, false) {
+        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, false) {
 
             @Override
             public void onPostExecute() {
@@ -82,7 +83,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
             public void run() {
                 try {
                     User usuario = new User("jjj@jjj.com", "prueba");
-                    UserAdapterTest.peticionInicioSesionAceptada = adaptadorUsuarios2.enviarPeticionSesion(usuario);
+                    UserAdapterTest.peticionInicioSesionAceptada = adaptadorUsuarios.enviarPeticionSesion(usuario);
                 } catch (ErrorException e) {
                     e.printStackTrace();
                 }
@@ -93,16 +94,37 @@ public class UserAdapterTest extends InstrumentationTestCase {
     }
 
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+    /**
+     * Debe modificar un usuario
+     *
+     * @throws Throwable
+     */
+    public void testModifyUser() throws Throwable {
+        final CountDownLatch signalUser = new CountDownLatch(1);
 
-        try {
-            deleteUser();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.MODIFY_USER, false, "jjj@jjj.com") {
 
+            @Override
+            public void onPostExecute() {
+                super.onPostExecute();
+                signalUser.countDown();
+            }
+        };
+
+        runTestOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    User usuario = new User("Modificado", "Modificado", "jjj@jjj.com", "1994", "776131311",
+                            "Modificado", "Modificado", "Modificado", "Modificado", "Modificado", "678654320");
+                    UserAdapterTest.peticionModificarAceptada = adaptadorUsuarios.enviarPeticionRegistrar(usuario);
+                } catch (ErrorException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        assertTrue(peticionModificarAceptada);
     }
 
 
@@ -132,5 +154,18 @@ public class UserAdapterTest extends InstrumentationTestCase {
         });
 
         assertTrue(peticionBorrarAceptada);
+    }
+
+
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+
+        try {
+            deleteUser();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+
     }
 }
