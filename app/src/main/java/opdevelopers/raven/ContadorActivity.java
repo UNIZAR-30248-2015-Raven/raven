@@ -199,7 +199,7 @@ public class ContadorActivity extends AppCompatActivity {
         int mins = minPicker.getValue();
         int sec = secPicker.getValue();
 
-        // compureba que ha introducido un tiempo
+        // compureba que se ha introducido un tiempo
         if ((hours == MIN_HOUR_VALUE) && (mins == MIN_MIN_VALUE) && (sec == MIN_SEC_VALUE)) {
             Toast.makeText(this, R.string.no_tiempo, Toast.LENGTH_SHORT).show();
 
