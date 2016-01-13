@@ -37,7 +37,7 @@
             android:name=".ContadorActivity"
             android:windowSoftInputMode="stateAlwaysVisible" />
         <activity android:name=".AlarmActivity" />
-        <activity android:name=".SimonActivity"></activity>
+        <activity android:name=".simonGame.SimonActivity"></activity>
     </application>
 
 </manifest>

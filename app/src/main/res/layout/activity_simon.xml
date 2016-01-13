@@ -14,11 +14,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-
-    >
+    android:layout_height="fill_parent" >
     <!-- android:background="@drawable/background_config" -->
-    <opdevelopers.raven.ButtonGridView
+    <opdevelopers.raven.simonGame.ButtonGridView
         android:id="@+id/button_grid"
         android:layout_alignParentTop="true"
         android:layout_width="fill_parent"
@@ -32,35 +30,9 @@
         android:stretchColumns="1,3"
         >
 
-        <TableRow android:layout_gravity="left">
-
-            <View
-                android:layout_height="2dip"
-                />
-            <TextView
-                android:layout_gravity="left"
-                android:text="@string/game"
-                />
-            <TextView
-                android:id="@+id/game"
-                android:layout_gravity="left"
-                android:text="1"
-                />
-            <TextView
-                android:layout_gravity="left"
-                android:text="@string/level"
-                />
-            <TextView
-                android:id="@+id/level"
-                android:layout_gravity="left"
-                android:text="1"
-                />
-        </TableRow>
-
         <TableRow android:layout_gravity="center">
             <Button
                 android:id="@+id/last"
-                android:background="@drawable/yellow_control"
                 />
             <View
                 android:layout_height="2dip"
@@ -74,13 +46,12 @@
                 />
             <Button
                 android:id="@+id/longest"
-                android:background="@drawable/yellow_control"
                 />
         </TableRow>
 
         <TableRow android:layout_gravity="center">
             <TextView  android:layout_gravity="center"
-                android:text="@string/last"
+                android:text=""
                 />
             <View
                 android:layout_height="2dip"
@@ -92,7 +63,7 @@
                 android:layout_height="2dip"
                 />
             <TextView  android:layout_gravity="center"
-                android:text="@string/longest"
+                android:text=""
                 />
 
         </TableRow>

@@ -1,4 +1,4 @@
-package opdevelopers.raven;
+package opdevelopers.raven.simonGame;
 
 /*
  * By William D. Cattey
@@ -23,6 +23,8 @@ import android.content.Context;
 
 import android.media.AudioManager;
 import android.media.SoundPool;
+
+import opdevelopers.raven.R;
 
 public final class SimonClone {
 

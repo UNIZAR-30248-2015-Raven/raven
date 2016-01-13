@@ -1,4 +1,4 @@
-package opdevelopers.raven;
+package opdevelopers.raven.simonGame;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -6,9 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.View;
+
+import opdevelopers.raven.R;
+import opdevelopers.raven.simonGame.SimonClone;
 
 /*
 * By William D. Cattey
