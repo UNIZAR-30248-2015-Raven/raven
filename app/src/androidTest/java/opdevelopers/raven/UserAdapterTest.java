@@ -32,16 +32,8 @@ public class UserAdapterTest extends InstrumentationTestCase {
      * @throws Throwable
      */
     public void createUser() throws Throwable {
-        final CountDownLatch signalUser = new CountDownLatch(1);
 
-        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, true) {
-
-            @Override
-            public void onPostExecute() {
-                super.onPostExecute();
-                signalUser.countDown();
-            }
-        };
+        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, true);
 
         runTestOnUiThread(new Runnable() {
 
@@ -67,16 +59,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
      * @throws Throwable
      */
     public void testLoginUser() throws Throwable {
-        final CountDownLatch signalUser = new CountDownLatch(1);
-
-        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, false) {
-
-            @Override
-            public void onPostExecute() {
-                super.onPostExecute();
-                signalUser.countDown();
-            }
-        };
+        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.CREATE_USER, false);
 
         runTestOnUiThread(new Runnable() {
             @Override
@@ -100,16 +83,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
      * @throws Throwable
      */
     public void testModifyUser() throws Throwable {
-        final CountDownLatch signalUser = new CountDownLatch(1);
-
-        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.MODIFY_USER, false, "jjj@jjj.com") {
-
-            @Override
-            public void onPostExecute() {
-                super.onPostExecute();
-                signalUser.countDown();
-            }
-        };
+        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.MODIFY_USER, false, "jjj@jjj.com");
 
         runTestOnUiThread(new Runnable() {
             @Override
@@ -134,16 +108,7 @@ public class UserAdapterTest extends InstrumentationTestCase {
      * @throws Throwable
      */
     public void deleteUser() throws Throwable {
-        final CountDownLatch signalUser = new CountDownLatch(1);
-
-        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.DELETE_USER, true) {
-
-            @Override
-            public void onPostExecute() {
-                super.onPostExecute();
-                signalUser.countDown();
-            }
-        };
+        final UserAdapter adaptadorUsuarios = new UserAdapter(Constants.DELETE_USER, true);
 
         runTestOnUiThread(new Runnable() {
             @Override
